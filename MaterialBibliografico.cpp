@@ -37,6 +37,6 @@ void MaterialBibliografico::setPrestado(bool prestado){
     this -> prestado = false;
 }
 
-void MaterialBibliografico::mostrarInformacion(){};
+void MaterialBibliografico::mostrarInformacion(){}
 
-MaterialBibliografico::~MaterialBibliografico(){};
+MaterialBibliografico::~MaterialBibliografico(){}
