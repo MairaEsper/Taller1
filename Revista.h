@@ -6,15 +6,15 @@ using namespace std;
 class Revista:public MaterialBibliografico{
     private:
     int numeroEdicion;
-    int mesPublicacion;
+    string mesPublicacion;
 
     public:
-    Revista(string nombre, string isbn, string autor, int numeroEdicion, int mesPublicacion);
+    Revista(string nombre, string isbn, string autor, int numeroEdicion, string mesPublicacion);
     int getNumeroEdicion();
     void setNumeroEdicion(int numeroEdicion);
 
-    int getMesPublicacion();
-    void setMesPublicacion(int mesPublicacion);
+    string getMesPublicacion();
+    void setMesPublicacion(string mesPublicacion);
 
     void mostrarInformacion();
 
