@@ -21,7 +21,7 @@ void crearLibro(){
 
     cout<<"Ingrese el resumen: "; 
     string resumen;
-    getline(cin, resumen);
+    getline(cin, resumen); 
 
 }
 
@@ -41,25 +41,45 @@ void agregarMateriales(MaterialBibliografico* biblioteca[]){
     int material;
     cin>>material;
 
-    cout<<"Ingrese el nombre: "; 
+    cout<<"Ingrese el nombre del material: "; 
     string nombre;
     getline(cin, nombre);
 
-    cout<<"Ingrese la fecha de publicación (11-22-3333): "; 
+    cout<<"Ingrese el ISBN:";
+    string isbn;
+    cin>>isbn;
+
+    cout<<"Ingrese el autor:";
+    string autor;
+    cin>>autor;
+
     string fechaPublicacion;
-    cin>>fechaPublicacion;
+    string resumen;
+    int numeroEdicion;
+    string mesPublicacion;
 
     switch(material){
         case 1:
-        break;
+            cout<<"Ingrese la fecha de publicación (11-22-3333): "; 
+            cin>>fechaPublicacion;
+
+            cout<<"Ingrese el resumen: "; 
+            cin>>resumen;
+            break;
 
         case 2:
-        break;
+            cout<<"Ingrese el número de edición: "; 
+            cin>>numeroEdicion;
+
+            cout<<"Ingrese el mes de publicación (11-22-3333): "; 
+            cin>>mesPublicacion;
+            break;
 
         default:
-        cout<<"La opción que eligió es incorrecta/no existe"<<endl;
-        break;
+            cout<<"La opción que eligió es incorrecta/no existe"<<endl;
+            break;
     }
+
 }
 void mostrarInfo(){}
 void buscarMaterial(){}
