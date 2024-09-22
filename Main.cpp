@@ -99,8 +99,16 @@ void agregarMateriales(MaterialBibliografico* biblioteca[], int tamaño){
 
 }
 
-void mostrarInfo(MaterialBibliografico* biblioteca[]){
-    
+void mostrarInfo(MaterialBibliografico* biblioteca[], int tamaño){
+    if (biblioteca.empty()) {
+            cout << "La biblioteca está vacía." << endl;
+    } else {    
+        for(int i = 0;i < tamaño;i++){
+            if(biblioteca[i]){
+
+            }
+        }
+    }
 }
 void buscarMaterial(){}
 void prestarYDevolverMaterial(){}
@@ -115,10 +123,11 @@ int Main(){
     
     switch(opcion){
         case 1:
+        agregarMateriales(biblioteca,tamaño);
         break;
 
         case 2:
-            mostrarInfo(biblioteca);
+        mostrarInfo(biblioteca,tamaño);
         break;
 
         case 3:
