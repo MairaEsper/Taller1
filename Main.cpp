@@ -15,7 +15,6 @@ void mostrarMenu(){
 }
 
 void crearLibro(){
-    //string nombre, string isbn, string autor, string fechaPublicacion, string resumen
     cout<<"Ingrese la fecha de publicación (11-22-3333): "; //problema menor revisar despues
     string fechaPublicacion;
     cin>>fechaPublicacion;
