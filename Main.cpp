@@ -6,13 +6,13 @@
 using namespace std;
 
 void mostrarMenu(){
-    cout<<"1. Agregar material a la biblioteca"<<endl;
+    cout<<"\n1. Agregar material a la biblioteca"<<endl;
     cout<<"2. Mostrar información de los materiales"<<endl;
     cout<<"3. Buscar material"<<endl;
     cout<<"4. Prestar y devolver material"<<endl;
-    cout<<"5. Gestión de usuarios"<<endl;
+    cout<<"5. Gestion de usuarios"<<endl;
     cout<<"6. Salir"<<endl;
-    cout<<"Elija una opción: ";
+    cout<<"Elija una opcion: ";
 }
 
 bool validarFecha(const string& fecha) {
@@ -29,7 +29,7 @@ void agregarALista(MaterialBibliografico* biblioteca[], int medida, MaterialBibl
             return;  
         }
     }
-    cout<<"La biblioteca está llena";
+    cout<<"La biblioteca esta llena";
 }
 void crearLibro(string nombre, string isbn, string autor, MaterialBibliografico* biblioteca[], int medida){
     string fechaPublicacion;
@@ -70,7 +70,7 @@ void agregarMateriales(MaterialBibliografico* biblioteca[], int medida){
     string isbn;
     string autor;
 
-    cout<<"Ingrese el material bibliográfico que desea agregar (1. Libro / 2. Revista): ";
+    cout<<"Ingrese el material bibliografico que desea agregar (1. Libro / 2. Revista): ";
     cin>>material;
 
     cin.ignore();
@@ -95,7 +95,7 @@ void agregarMateriales(MaterialBibliografico* biblioteca[], int medida){
             break;
 
         default:
-            cout<<"La opción que eligió es incorrecta/no existe"<<endl;
+            cout<<"La opcion que eligio es incorrecta/no existe"<<endl;
             break;
     }
 
@@ -158,12 +158,12 @@ void prestar(MaterialBibliografico* biblioteca[], int medida, string tituloAutor
         bool encontrado = false;
         for(int i = 0; i < medida; i++){
             if (biblioteca[i] != nullptr) {
-                    if (biblioteca[i]->getNombre() == tituloAutor && biblioteca[i]->getPrestado() == false) {
+                    if ((biblioteca[i]->getNombre() == tituloAutor || biblioteca[i]->getAutor() == tituloAutor) && biblioteca[i]->getPrestado() == false) {
                         biblioteca[i]-> setPrestado(true);
                         encontrado = true;
                         cout<<"El material ha sido prestado con exito"<<endl;
                         return;
-                    }else if(biblioteca[i]->getNombre() == tituloAutor && biblioteca[i]->getPrestado() == true){
+                    }else if((biblioteca[i]->getNombre() == tituloAutor || biblioteca[i]->getAutor() == tituloAutor) && biblioteca[i]->getPrestado() == true){
                         cout<<"Este material ya esta prestado."<<endl;
                         encontrado = true;
                         return;
@@ -185,13 +185,13 @@ void devolver(MaterialBibliografico* biblioteca[], int medida,string tituloAutor
         bool encontrado = false;
         for(int i = 0; i < medida; i++){
             if (biblioteca[i] != nullptr) {
-                    if (biblioteca[i]->getNombre() == tituloAutor && biblioteca[i]->getPrestado() == false) {
-                        biblioteca[i]-> setPrestado(true);
+                    if ((biblioteca[i]->getNombre() == tituloAutor || biblioteca[i]->getAutor() == tituloAutor) && biblioteca[i]->getPrestado() == true) {
+                        biblioteca[i]-> setPrestado(false);
                         encontrado = true;
                         cout<<"El material ha sido devuelto con exito"<<endl;
                         return;
-                    }else if(biblioteca[i]->getNombre() == tituloAutor && biblioteca[i]->getPrestado() == true){
-                        cout<<"Este material ya esta prestado."<<endl;
+                    }else if((biblioteca[i]->getNombre() == tituloAutor || biblioteca[i]->getAutor() == tituloAutor) && biblioteca[i]->getPrestado() == false){
+                        cout<<"Este material no ha sido prestado."<<endl;
                         encontrado = true;
                         return;
                     }
@@ -207,27 +207,44 @@ void devolver(MaterialBibliografico* biblioteca[], int medida,string tituloAutor
 
 void prestarYDevolverMaterial(MaterialBibliografico* biblioteca[], int medida){
     int opcion;
-    cout<<"1.Prestar"<<endl;
-    cout<<"2.Devolver"<<endl;
-    cout<<"Ingrese una opcion: ";
-    cin>>opcion;
-    string tituloAutor;
-    cout<<"Ingrese titulo o nombre: ";
-    cin>>tituloAutor;
-    switch(opcion){
-        case 1:
-        prestar(biblioteca,medida,tituloAutor);
-        break;
+    do{
+        cout<<"1.Prestar"<<endl;
+        cout<<"2.Devolver"<<endl;
+        cout<<"3.Salir"<<endl;
+        cout<<"Ingrese una opcion: ";
+        cin>>opcion;
+        string tituloAutor;
+        cout<<"Ingrese titulo o nombre: ";
+        cin>>tituloAutor;
+        switch(opcion){
+            case 1:
+            prestar(biblioteca,medida,tituloAutor);
+            break;
 
-        case 2:
-        devolver(biblioteca,medida,tituloAutor);
-        break;
+            case 2:
+            devolver(biblioteca,medida,tituloAutor);
+            break;
 
-        default:
-        cout<<"la opcion no es valida"<<endl;
-        break;
-    }
+            default:
+            cout<<"la opcion no es valida"<<endl;
+            break;
+        }
+    }while(opcion !=3);
 }
+
+void crearUsuario(){
+    string nombreUsuario;
+    string idUsuario;
+    cout<<"Ingrese el nombre del usuario: ";
+    cin>>nombreUsuario;
+    cout<<"Ingrese la id del usuario: ";
+    cin>>idUsuario;
+
+    Usuario* usuario = new Usuario(nombreUsuario, idUsuario);
+}
+
+void buscarUsuario(){}
+void eliminarUsuario(){}
 void gestionUsuarios(){
     cout<<"1. Crear usuario";
     cout<<"2. Buscar usuario";
@@ -238,12 +255,15 @@ void gestionUsuarios(){
 
     switch(opcionUsuario){
         case 1:
+        crearUsuario();
         break;
 
         case 2:
+        buscarUsuario();
         break;
 
         case 3:
+        eliminarUsuario();
         break;
 
         default:

@@ -22,7 +22,7 @@ void Revista::setMesPublicacion(string mesPublicacion){
 }
 
 void Revista::mostrarInformacion(){
-    cout<<"Nombre: " + this -> nombre + "\nISBN: " + this -> isbn + "\nAutor: " + this -> autor + "\nNumero edicion: "<< this -> numeroEdicion << "\nMes publicacion: " + mesPublicacion<<endl;
+    cout<<"\nNombre: " + this -> nombre + "\nISBN: " + this -> isbn + "\nAutor: " + this -> autor + "\nNumero edicion: "<< this -> numeroEdicion << "\nMes publicacion: " + mesPublicacion<<endl;
 }
 
 Revista::~Revista(){}
