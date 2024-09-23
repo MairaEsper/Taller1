@@ -11,6 +11,7 @@ void mostrarMenu(){
     cout<<"3. Buscar material"<<endl;
     cout<<"4. Prestar y devolver material"<<endl;
     cout<<"5. Gestión de usuarios"<<endl;
+    cout<<"6. Salir"<<endl;
     cout<<"Elija una opción: ";
 }
 
@@ -22,7 +23,7 @@ bool validarFecha(const string& fecha) {
     }
 }
 void agregarALista(MaterialBibliografico* biblioteca[], int medida, MaterialBibliografico* mb){
-    for(int i = 0; i > medida; i++){
+    for(int i = 0; i < medida; i++){
         if(biblioteca[i] == nullptr){
             biblioteca[i] = mb;
             return;  
@@ -39,6 +40,7 @@ void crearLibro(string nombre, string isbn, string autor, MaterialBibliografico*
             cout<<"Formato incorrecto. Porfavor ingrese la fecha en el formato dd-mm-yyyy"<<endl;
         }
     }while(!validarFecha(fechaPublicacion));
+    cin.ignore();
     cout<<"Ingrese el resumen: "; 
     string resumen;
     getline(cin, resumen); 
@@ -71,14 +73,17 @@ void agregarMateriales(MaterialBibliografico* biblioteca[], int medida){
     cout<<"Ingrese el material bibliográfico que desea agregar (1. Libro / 2. Revista): ";
     cin>>material;
 
+    cin.ignore();
     cout<<"Ingrese el nombre del material: "; 
     getline(cin, nombre);
 
     cout<<"Ingrese el ISBN:";
     cin>>isbn;
 
+    cin.ignore();
     cout<<"Ingrese el autor:";
-    cin>>autor;
+    getline(cin, autor);
+    
 
     switch(material){
         case 1:
@@ -96,26 +101,34 @@ void agregarMateriales(MaterialBibliografico* biblioteca[], int medida){
 
 }
 
+
+
+// ARREGLAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAR
 bool hayMaterial(MaterialBibliografico* biblioteca[],int medida){
     for(int i = 0;i < medida;i++){
-        if(biblioteca[i] !=nullptr){
-            return true;
+        cout<<biblioteca[i]<<endl;
+        if(biblioteca[i] != nullptr){
+            cout<<biblioteca[i]->getNombre()<<endl;
         }
+    // if(biblioteca[i] == nullptr){
+    //     cout<<"noooooooooooooooo";
+    // }
     }
     return false;
 }
 void mostrarInfo(MaterialBibliografico* biblioteca[], int medida){
     bool hayMateriales = hayMaterial(biblioteca, medida);
     if(hayMateriales){
+        cout<<"seeeeeeeeeeeeee";
         for(int i = 0;i < medida;i++){
-            if(biblioteca[i] !=nullptr){
+            if(biblioteca[i] != nullptr){
                 biblioteca[i]->mostrarInformacion();
             }
         }
-    } else {
+    }else{
         cout<<"La Biblioteca está vacía."<<endl;
     }
-}
+}// ARREGLAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAR
 
 void buscarMaterial(MaterialBibliografico* biblioteca[], int medida){
     string respuesta;
@@ -214,29 +227,38 @@ void gestionUsuarios(){} //Implementar la funcionalidad para crear, buscar y eli
 int main(){
     int medida = 100;
     MaterialBibliografico* biblioteca[medida];
-    mostrarMenu();
     int opcion;
-    cin>>opcion;
-    
-    switch(opcion){
-        case 1:
-        agregarMateriales(biblioteca,medida);
-        break;
+    do{
+        mostrarMenu();
+        cin>>opcion;
+        
+        switch(opcion){
+            case 1:
+            agregarMateriales(biblioteca,medida);
+            break;
 
-        case 2:
-        mostrarInfo(biblioteca,medida);
-        break;
+            case 2:
+            mostrarInfo(biblioteca,medida);
+            break;
 
-        case 3:
-        buscarMaterial(biblioteca,medida);
-        break;
+            case 3:
+            buscarMaterial(biblioteca,medida);
+            break;
 
-        case 4:
-        break;
+            case 4:
+            break;
 
-        default:
-        cout<<"la opción no es válida"<<endl;
-        break;
-    }
+            case 5:
+            break;
+
+            case 6:
+            cout<<"Sistema Cerrado";
+            break;
+
+            default:
+            cout<<"la opción no es válida"<<endl;
+            break;
+        }
+    }while(opcion !=6);
     return 0;
 }
