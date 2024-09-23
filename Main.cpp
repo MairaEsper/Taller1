@@ -99,49 +99,117 @@ void agregarMateriales(MaterialBibliografico* biblioteca[], int tamaño){
 
 }
 
-void mostrarInfo(MaterialBibliografico* biblioteca[], int tamaño){
-    bool hayMateriales = false;
+bool hayMaterial(MaterialBibliografico* biblioteca[],int tamaño){
     for(int i = 0;i < tamaño;i++){
         if(biblioteca[i] !=nullptr){
-            biblioteca[i]->mostrarInformacion();
-            cout<<endl;
-            hayMateriales = true;
+            return true;
         }
     }
-    if(!hayMateriales){cout<<"La Biblioteca está vacía."<<endl;}
+    return false;
+}
+void mostrarInfo(MaterialBibliografico* biblioteca[], int tamaño){
+    bool hayMateriales = hayMaterial(biblioteca, tamaño);
+    if(hayMateriales){
+        for(int i = 0;i < tamaño;i++){
+            if(biblioteca[i] !=nullptr){
+                biblioteca[i]->mostrarInformacion();
+            }
+        }
+    } else {
+        cout<<"La Biblioteca está vacía."<<endl;
+    }
 }
 
 void buscarMaterial(MaterialBibliografico* biblioteca[], int tamaño){
     string respuesta;
-    cout<<"Ingrese el título o autor: ";
-    cin>>respuesta;
-    bool encontrado = false;
-     for (int i = 0; i < tamaño; i++) {
-        if (biblioteca[i] != nullptr) {
-            if (biblioteca[i]->getNombre() == respuesta) {
-                biblioteca[i]->mostrarInformacion();
-                encontrado = true;
+    bool hayMateriales = hayMaterial(biblioteca, tamaño);
+    
+    if(hayMateriales){
+        bool encontrado = false;
+        do{
+            cout<<"Ingrese el título o autor: ";
+            cin>>respuesta;
+            
+            for (int i = 0; i < tamaño; i++) {
+                if (biblioteca[i] != nullptr) {
+                    if (biblioteca[i]->getNombre() == respuesta) {
+                        biblioteca[i]->mostrarInformacion();
+                        encontrado = true;
+                    }
+                    if (biblioteca[i]->getAutor() == respuesta) {
+                        biblioteca[i]->mostrarInformacion();
+                        encontrado = true;
+                    }
+                }
             }
-            if (biblioteca[i]->getAutor() == respuesta) {
-                biblioteca[i]->mostrarInformacion();
-                encontrado = true;
+            if (!encontrado) {
+                cout<<"No se encontraron resultados para: "<<respuesta<<endl;
+            }
+        }while(!encontrado);
+    }else{
+        cout<<"La Biblioteca está vacía."<<endl;
+    }
+    
+}
+//Función para buscar materiales por título o autor utilizando búsquedas lineales en el array.
+
+
+
+void prestar(MaterialBibliografico* biblioteca[], int tamaño, string tituloAutor){
+    bool hayMateriales = hayMaterial(biblioteca, tamaño);
+    if(hayMateriales){
+        bool encontrado = false;
+        for(int i = 0; i < tamaño; i++){
+            if (biblioteca[i] != nullptr) {
+                    if (biblioteca[i]->getNombre() == tituloAutor && biblioteca[i]->getPrestado() == false) {
+                        biblioteca[i]-> setPrestado(true);
+                        encontrado = true;
+                        cout<<"El material ha sido prestado con exito"<<endl;
+                        return;
+                    }else if(biblioteca[i]->getNombre() == tituloAutor && biblioteca[i]->getPrestado() == true){
+                        cout<<"Este material ya esta prestado."<<endl;
+                        encontrado = true;
+                        return;
+                    }
             }
         }
-    }
-    if (!encontrado) {
-        cout<<"No se encontraron resultados para: "<<respuesta<<endl;
+        if (!encontrado) {
+                cout<<"No se encontraron resultados para: "<<tituloAutor<<endl;
+            }
+    }else{
+        cout<<"La Biblioteca está vacía."<<endl;
     }
 }
 
-    for(int i = 0; i > tamaño, i++){
-        if(respuesta == biblioteca[i]->getNombre() or respuesta == biblioteca[i]->getAutor()){
-            cout<<"Título: " + biblioteca[i]->getNombre() + "\nISBN: " + biblioteca[i]->getISBN() + "\nAutor: " + biblioteca[i]->getAutor();
-        }
-    }
-} //Función para buscar materiales por título o autor utilizando búsquedas lineales en el array. 
 
-void prestarYDevolverMaterial(biblioteca){
-    
+void devolver(MaterialBibliografico* biblioteca[], int tamaño, string tituloNombre){
+    for(int i = 0; i < tamaño; i++){
+        
+    }
+}
+
+void prestarYDevolverMaterial(MaterialBibliografico* biblioteca[], int tamaño){
+    int opcion;
+    cout<<"1.Prestar"<<endl;
+    cout<<"2.Devolver"<<endl;
+    cout<<"Ingrese una opcion: ";
+    cin>>opcion;
+    string tituloAutor;
+    cout<<"Ingrese titulo o nombre: ";
+    cin>>tituloAutor;
+    switch(opcion){
+        case 1:
+        prestar(biblioteca,tamaño,tituloAutor);
+        break;
+
+        case 2:
+        devolver(biblioteca,tamaño,tituloAutor);
+        break;
+
+        default:
+        cout<<"la opción no es válida"<<endl;
+        break;
+    }
 }
 void gestionUsuarios(){} //Implementar la funcionalidad para crear, buscar y eliminar usuarios. Asociar materiales prestados a usuarios específicos. 
 
@@ -163,6 +231,7 @@ int Main(){
         break;
 
         case 3:
+        buscarMaterial(biblioteca,tamaño);
         break;
 
         case 4:

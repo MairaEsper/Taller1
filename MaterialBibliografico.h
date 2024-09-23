@@ -3,7 +3,7 @@
 using namespace std;
 
 class MaterialBibliografico{
-    private:
+    protected:
     string nombre;
     string isbn;
     string autor;
