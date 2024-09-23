@@ -21,8 +21,16 @@ bool validarFecha(const string& fecha) {
         return false;
     }
 }
-
-void crearLibro(string nombre, string isbn, string autor, MaterialBibliografico* biblioteca[], int tamaño){
+void agregarALista(MaterialBibliografico* biblioteca[], int medida, MaterialBibliografico* mb){
+    for(int i = 0; i > medida; i++){
+        if(biblioteca[i] == nullptr){
+            biblioteca[i] = mb;
+            return;  
+        }
+    }
+    cout<<"La biblioteca está llena";
+}
+void crearLibro(string nombre, string isbn, string autor, MaterialBibliografico* biblioteca[], int medida){
     string fechaPublicacion;
     do{
         cout<<"Ingrese la fecha de publicación(dd-mm-yyyy): "; 
@@ -36,11 +44,11 @@ void crearLibro(string nombre, string isbn, string autor, MaterialBibliografico*
     getline(cin, resumen); 
 
     Libro* libro = new Libro(nombre, isbn, autor, "libro", fechaPublicacion, resumen);
-    agregarALista(biblioteca, tamaño, libro);
+    agregarALista(biblioteca, medida, libro);
     
 }
 
-void crearRevista(string nombre, string isbn, string autor, MaterialBibliografico* biblioteca[], int tamaño){
+void crearRevista(string nombre, string isbn, string autor, MaterialBibliografico* biblioteca[], int medida){
     cout<<"Ingrese el número de edición: "; 
     int numeroEdicion;
     cin>>numeroEdicion;
@@ -50,22 +58,11 @@ void crearRevista(string nombre, string isbn, string autor, MaterialBibliografic
     cin>>mesPublicacion;
 
     Revista* revista = new Revista(nombre, isbn, autor, "revista", numeroEdicion, mesPublicacion);
-    agregarALista(biblioteca, tamaño, revista);
+    agregarALista(biblioteca, medida, revista);
 
 }
 
-void agregarALista(MaterialBibliografico* biblioteca[], int tamaño, MaterialBibliografico* mb){
-    for(int i = 0; i > tamaño; i++){
-        if(biblioteca[i] == nullptr){
-            biblioteca[i] = mb;
-            return;  
-        }
-    }
-    cout<<"La biblioteca está llena";
-}
-
-
-void agregarMateriales(MaterialBibliografico* biblioteca[], int tamaño){
+void agregarMateriales(MaterialBibliografico* biblioteca[], int medida){
     int material;
     string nombre;
     string isbn;
@@ -85,11 +82,11 @@ void agregarMateriales(MaterialBibliografico* biblioteca[], int tamaño){
 
     switch(material){
         case 1:
-            crearLibro(nombre, isbn, autor, biblioteca, tamaño);
+            crearLibro(nombre, isbn, autor, biblioteca, medida);
             break;
 
         case 2:
-            crearRevista(nombre, isbn, autor, biblioteca, tamaño);
+            crearRevista(nombre, isbn, autor, biblioteca, medida);
             break;
 
         default:
@@ -99,18 +96,18 @@ void agregarMateriales(MaterialBibliografico* biblioteca[], int tamaño){
 
 }
 
-bool hayMaterial(MaterialBibliografico* biblioteca[],int tamaño){
-    for(int i = 0;i < tamaño;i++){
+bool hayMaterial(MaterialBibliografico* biblioteca[],int medida){
+    for(int i = 0;i < medida;i++){
         if(biblioteca[i] !=nullptr){
             return true;
         }
     }
     return false;
 }
-void mostrarInfo(MaterialBibliografico* biblioteca[], int tamaño){
-    bool hayMateriales = hayMaterial(biblioteca, tamaño);
+void mostrarInfo(MaterialBibliografico* biblioteca[], int medida){
+    bool hayMateriales = hayMaterial(biblioteca, medida);
     if(hayMateriales){
-        for(int i = 0;i < tamaño;i++){
+        for(int i = 0;i < medida;i++){
             if(biblioteca[i] !=nullptr){
                 biblioteca[i]->mostrarInformacion();
             }
@@ -120,9 +117,9 @@ void mostrarInfo(MaterialBibliografico* biblioteca[], int tamaño){
     }
 }
 
-void buscarMaterial(MaterialBibliografico* biblioteca[], int tamaño){
+void buscarMaterial(MaterialBibliografico* biblioteca[], int medida){
     string respuesta;
-    bool hayMateriales = hayMaterial(biblioteca, tamaño);
+    bool hayMateriales = hayMaterial(biblioteca, medida);
     
     if(hayMateriales){
         bool encontrado = false;
@@ -130,7 +127,7 @@ void buscarMaterial(MaterialBibliografico* biblioteca[], int tamaño){
             cout<<"Ingrese el título o autor: ";
             cin>>respuesta;
             
-            for (int i = 0; i < tamaño; i++) {
+            for (int i = 0; i < medida; i++) {
                 if (biblioteca[i] != nullptr) {
                     if (biblioteca[i]->getNombre() == respuesta) {
                         biblioteca[i]->mostrarInformacion();
@@ -155,11 +152,11 @@ void buscarMaterial(MaterialBibliografico* biblioteca[], int tamaño){
 
 
 
-void prestar(MaterialBibliografico* biblioteca[], int tamaño, string tituloAutor){
-    bool hayMateriales = hayMaterial(biblioteca, tamaño);
+void prestar(MaterialBibliografico* biblioteca[], int medida, string tituloAutor){
+    bool hayMateriales = hayMaterial(biblioteca, medida);
     if(hayMateriales){
         bool encontrado = false;
-        for(int i = 0; i < tamaño; i++){
+        for(int i = 0; i < medida; i++){
             if (biblioteca[i] != nullptr) {
                     if (biblioteca[i]->getNombre() == tituloAutor && biblioteca[i]->getPrestado() == false) {
                         biblioteca[i]-> setPrestado(true);
@@ -182,13 +179,13 @@ void prestar(MaterialBibliografico* biblioteca[], int tamaño, string tituloAuto
 }
 
 
-void devolver(MaterialBibliografico* biblioteca[], int tamaño, string tituloNombre){
-    for(int i = 0; i < tamaño; i++){
+void devolver(MaterialBibliografico* biblioteca[], int medida, string tituloNombre){
+    for(int i = 0; i < medida; i++){
         
     }
 }
 
-void prestarYDevolverMaterial(MaterialBibliografico* biblioteca[], int tamaño){
+void prestarYDevolverMaterial(MaterialBibliografico* biblioteca[], int medida){
     int opcion;
     cout<<"1.Prestar"<<endl;
     cout<<"2.Devolver"<<endl;
@@ -199,11 +196,11 @@ void prestarYDevolverMaterial(MaterialBibliografico* biblioteca[], int tamaño){
     cin>>tituloAutor;
     switch(opcion){
         case 1:
-        prestar(biblioteca,tamaño,tituloAutor);
+        prestar(biblioteca,medida,tituloAutor);
         break;
 
         case 2:
-        devolver(biblioteca,tamaño,tituloAutor);
+        devolver(biblioteca,medida,tituloAutor);
         break;
 
         default:
@@ -215,23 +212,23 @@ void gestionUsuarios(){} //Implementar la funcionalidad para crear, buscar y eli
 
 
 int Main(){
-    int tamaño = 100;
-    MaterialBibliografico* biblioteca[tamaño];
+    int medida = 100;
+    MaterialBibliografico* biblioteca[medida];
     mostrarMenu();
     int opcion;
     cin>>opcion;
     
     switch(opcion){
         case 1:
-        agregarMateriales(biblioteca,tamaño);
+        agregarMateriales(biblioteca,medida);
         break;
 
         case 2:
-        mostrarInfo(biblioteca,tamaño);
+        mostrarInfo(biblioteca,medida);
         break;
 
         case 3:
-        buscarMaterial(biblioteca,tamaño);
+        buscarMaterial(biblioteca,medida);
         break;
 
         case 4:

@@ -21,8 +21,8 @@ void Usuario::setId(string id){
     this -> id = id;
 }
 
-bool Usuario::prestarMaterial(){}
-bool Usuario::devolverMaterial(){}
+void Usuario::prestarMaterial(){}
+void Usuario::devolverMaterial(){}
 void Usuario::mostrarMaterialesPrestados(){}
 
 Usuario::~Usuario(){}

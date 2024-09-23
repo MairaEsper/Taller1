@@ -17,8 +17,8 @@ class Usuario{
     string getId();
     void setId(string id);
 
-    bool prestarMaterial();
-    bool devolverMaterial();
+    void prestarMaterial();
+    void devolverMaterial();
     void mostrarMaterialesPrestados();
-
+    ~Usuario();
 };
