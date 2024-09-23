@@ -211,7 +211,7 @@ void prestarYDevolverMaterial(MaterialBibliografico* biblioteca[], int medida){
 void gestionUsuarios(){} //Implementar la funcionalidad para crear, buscar y eliminar usuarios. Asociar materiales prestados a usuarios específicos. 
 
 
-int Main(){
+int main(){
     int medida = 100;
     MaterialBibliografico* biblioteca[medida];
     mostrarMenu();
