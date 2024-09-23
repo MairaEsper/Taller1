@@ -100,36 +100,26 @@ void agregarMateriales(MaterialBibliografico* biblioteca[], int medida){
     }
 
 }
-
-
-
-// ARREGLAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAR
 bool hayMaterial(MaterialBibliografico* biblioteca[],int medida){
     for(int i = 0;i < medida;i++){
-        cout<<biblioteca[i]<<endl;
         if(biblioteca[i] != nullptr){
-            cout<<biblioteca[i]->getNombre()<<endl;
-            
+            return true;
         }
-    // if(biblioteca[i] == nullptr){
-    //     cout<<"noooooooooooooooo";
-    // }
     }
     return false;
 }
 void mostrarInfo(MaterialBibliografico* biblioteca[], int medida){
     bool hayMateriales = hayMaterial(biblioteca, medida);
     if(hayMateriales){
-        cout<<"seeeeeeeeeeeeee";
         for(int i = 0;i < medida;i++){
             if(biblioteca[i] != nullptr){
                 biblioteca[i]->mostrarInformacion();
             }
         }
     }else{
-        cout<<"La Biblioteca está vacía."<<endl;
+        cout<<"La Biblioteca esta vacia."<<endl;
     }
-}// ARREGLAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAR
+}
 
 void buscarMaterial(MaterialBibliografico* biblioteca[], int medida){
     string respuesta;
@@ -138,7 +128,7 @@ void buscarMaterial(MaterialBibliografico* biblioteca[], int medida){
     if(hayMateriales){
         bool encontrado = false;
         do{
-            cout<<"Ingrese el título o autor: ";
+            cout<<"Ingrese el titulo o autor: ";
             cin>>respuesta;
             
             for (int i = 0; i < medida; i++) {
@@ -158,14 +148,10 @@ void buscarMaterial(MaterialBibliografico* biblioteca[], int medida){
             }
         }while(!encontrado);
     }else{
-        cout<<"La Biblioteca está vacía."<<endl;
+        cout<<"La Biblioteca esta vacia."<<endl;
     }
     
 }
-//Función para buscar materiales por título o autor utilizando búsquedas lineales en el array.
-
-
-
 void prestar(MaterialBibliografico* biblioteca[], int medida, string tituloAutor){
     bool hayMateriales = hayMaterial(biblioteca, medida);
     if(hayMateriales){
@@ -188,14 +174,34 @@ void prestar(MaterialBibliografico* biblioteca[], int medida, string tituloAutor
                 cout<<"No se encontraron resultados para: "<<tituloAutor<<endl;
             }
     }else{
-        cout<<"La Biblioteca está vacía."<<endl;
+        cout<<"La Biblioteca esta vacia."<<endl;
     }
 }
 
 
-void devolver(MaterialBibliografico* biblioteca[], int medida, string tituloNombre){
-    for(int i = 0; i < medida; i++){
-        
+void devolver(MaterialBibliografico* biblioteca[], int medida,string tituloAutor){
+    bool hayMateriales = hayMaterial(biblioteca, medida);
+    if(hayMateriales){
+        bool encontrado = false;
+        for(int i = 0; i < medida; i++){
+            if (biblioteca[i] != nullptr) {
+                    if (biblioteca[i]->getNombre() == tituloAutor && biblioteca[i]->getPrestado() == false) {
+                        biblioteca[i]-> setPrestado(true);
+                        encontrado = true;
+                        cout<<"El material ha sido devuelto con exito"<<endl;
+                        return;
+                    }else if(biblioteca[i]->getNombre() == tituloAutor && biblioteca[i]->getPrestado() == true){
+                        cout<<"Este material ya esta prestado."<<endl;
+                        encontrado = true;
+                        return;
+                    }
+            }
+        }
+        if (!encontrado) {
+                cout<<"No se encontraron resultados para: "<<tituloAutor<<endl;
+            }
+    }else{
+        cout<<"La Biblioteca esta vacia."<<endl;
     }
 }
 
@@ -218,16 +224,38 @@ void prestarYDevolverMaterial(MaterialBibliografico* biblioteca[], int medida){
         break;
 
         default:
-        cout<<"la opción no es válida"<<endl;
+        cout<<"la opcion no es valida"<<endl;
         break;
     }
 }
-void gestionUsuarios(){} //Implementar la funcionalidad para crear, buscar y eliminar usuarios. Asociar materiales prestados a usuarios específicos. 
+void gestionUsuarios(){
+    cout<<"1. Crear usuario";
+    cout<<"2. Buscar usuario";
+    cout<<"3. Eliminar usuario";
+    cout<<"Ingrese una opción: ";
+    int opcionUsuario;
+    cin>>opcionUsuario;
 
+    switch(opcionUsuario){
+        case 1:
+        break;
+
+        case 2:
+        break;
+
+        case 3:
+        break;
+
+        default:
+        cout<<"la opcion no es valida"<<endl;
+        break;
+    }
+} //Implementar la funcionalidad para crear, buscar y eliminar usuarios. Asociar materiales prestados a usuarios específicos. 
+    
 
 int main(){
     int medida = 100;
-    MaterialBibliografico* biblioteca[medida];
+    MaterialBibliografico* biblioteca[medida] = {nullptr};
     int opcion;
     do{
         mostrarMenu();
@@ -257,7 +285,7 @@ int main(){
             break;
 
             default:
-            cout<<"la opción no es válida"<<endl;
+            cout<<"la opcion no es valida"<<endl;
             break;
         }
     }while(opcion !=6);
