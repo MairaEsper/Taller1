@@ -109,6 +109,7 @@ bool hayMaterial(MaterialBibliografico* biblioteca[],int medida){
         cout<<biblioteca[i]<<endl;
         if(biblioteca[i] != nullptr){
             cout<<biblioteca[i]->getNombre()<<endl;
+            
         }
     // if(biblioteca[i] == nullptr){
     //     cout<<"noooooooooooooooo";
