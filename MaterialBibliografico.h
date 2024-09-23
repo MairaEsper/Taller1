@@ -8,9 +8,10 @@ class MaterialBibliografico{
     string isbn;
     string autor;
     bool prestado;
+    string tipo;
 
     public:
-    MaterialBibliografico(string nombre, string isbn, string autor);
+    MaterialBibliografico(string nombre, string isbn, string autor, string tipo);
     string getNombre();
     void setNombre(string nombre);
 
@@ -19,6 +20,9 @@ class MaterialBibliografico{
 
     string getAutor();
     void setAutor(string autor);
+
+    string getTipo();
+    void setTipo(string tipo);
 
     bool getPrestado();
     void setPrestado(bool prestado);

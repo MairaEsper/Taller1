@@ -2,11 +2,12 @@
 #include "MaterialBibliografico.h"
 using namespace std;
 
-MaterialBibliografico::MaterialBibliografico(string nombre, string isbn, string autor){
+MaterialBibliografico::MaterialBibliografico(string nombre, string isbn, string autor, string tipo){
     this -> nombre = nombre;
     this -> isbn = isbn;
     this -> autor = autor;
     this -> prestado = false;
+    this -> tipo = tipo;
 }
 
 string MaterialBibliografico::getNombre(){
@@ -28,6 +29,13 @@ string MaterialBibliografico::getAutor(){
 }
 void MaterialBibliografico::setAutor(string autor){
     this -> autor = autor;
+}
+
+string MaterialBibliografico::getTipo(){
+    return tipo;
+}
+void MaterialBibliografico::setTipo(string tipo){
+    this -> tipo = tipo;
 }
 
 bool MaterialBibliografico::getPrestado(){

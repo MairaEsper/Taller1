@@ -2,7 +2,7 @@
 #include "Revista.h"
 using namespace std;
 
-Revista::Revista(string nombre, string isbn, string autor, int numeroEdicion, string mesPublicacion):MaterialBibliografico(nombre, isbn, autor){
+Revista::Revista(string nombre, string isbn, string autor,string tipo,int numeroEdicion, string mesPublicacion):MaterialBibliografico(nombre, isbn, autor, tipo){
     this -> numeroEdicion = numeroEdicion;
     this -> mesPublicacion = mesPublicacion;
 }
@@ -21,6 +21,8 @@ void Revista::setMesPublicacion(string mesPublicacion){
     this -> mesPublicacion = mesPublicacion;
 }
 
-void Revista::mostrarInformacion(){}
+void Revista::mostrarInformacion(){
+    coutcout<<"Nombre: "+getNombre+"ISBN:"++Numero Edicion: "+ + fechaPublicacion + "\nResumen: " + resumen;
+}
 
 Revista::~Revista(){}

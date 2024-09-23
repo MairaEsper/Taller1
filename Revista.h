@@ -9,7 +9,7 @@ class Revista:public MaterialBibliografico{
     string mesPublicacion;
 
     public:
-    Revista(string nombre, string isbn, string autor, int numeroEdicion, string mesPublicacion);
+    Revista(string nombre, string isbn, string autor, string tipo, int numeroEdicion, string mesPublicacion);
     int getNumeroEdicion();
     void setNumeroEdicion(int numeroEdicion);
 

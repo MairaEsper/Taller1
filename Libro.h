@@ -9,7 +9,7 @@ class Libro:public MaterialBibliografico{
     string resumen;
 
     public: 
-    Libro(string nombre, string isbn, string autor, string fechaPublicacion, string resumen);
+    Libro(string nombre, string isbn, string autor, string tipo, string fechaPublicacion, string resumen);
     string getFechaPublicacion();
     void setFechaPublicacion(string getFechaPublicacion);
 
