@@ -232,34 +232,99 @@ void prestarYDevolverMaterial(MaterialBibliografico* biblioteca[], int medida){
     }while(opcion !=3);
 }
 
-void crearUsuario(){
-    string nombreUsuario;
-    string idUsuario;
-    cout<<"Ingrese el nombre del usuario: ";
-    cin>>nombreUsuario;
-    cout<<"Ingrese la id del usuario: ";
-    cin>>idUsuario;
+void menuBuscarUsuario(Usuario* usuarios[],int cantUsuarios){
+    Usuario* usuario = nullptr;
+    int opcion;
+    string nombre;
+    int id;
+    cout<<"\n1.Nombre";
+    cout<<"\n2.Id";
+    cin>>opcion;
+    switch (opcion){
 
-    Usuario* usuario = new Usuario(nombreUsuario, idUsuario);
+        case 1:
+        cout<<"Ingrese el nombre: ";
+        cin>>nombre;
+        id = -1;
+        usuario = buscarUsuario(usuarios,cantUsuarios,nombre,id);
+        break;
+
+        case 2:
+        cout<<"Ingresa el id: ";
+        cin>>id;
+        nombre = "";
+        usuario = buscarUsuario(usuarios,cantUsuarios,nombre,id);
+        break;
+
+        default:
+        cout<<"Opcion invalida";
+        break;
+    }
+    if(usuario != nullptr){
+        cout<<"El usuario buscado: "+usuario->getNombre()<<usuario->getId()<<endl;
+        usuario->mostrarMaterialesPrestados();
+    }else{
+        cout<<"El usuario no existe";
+    }
+
 }
 
-void buscarUsuario(){}
+
+Usuario* buscarUsuario(Usuario* usuarios[],int cantUsuarios,string nombreUsuario,int idUsuario){
+    for(int i = 0; i < cantUsuarios; i++){
+        if(usuarios[i]->getNombre() == nombreUsuario || usuarios[i]->getId() == idUsuario){
+            return usuarios[i];
+        }
+    }
+    return nullptr;
+}
+void agregarUsuario(Usuario* usuarios[],int cantUsuarios,Usuario* usuario){
+    for(int i = 0; i < cantUsuarios; i++){
+        if(usuarios[i] == nullptr){
+            usuarios[i] = usuario;
+            return;  
+        }
+    }
+    cout<<"La lista de usuarios esta llena";
+}
+void crearUsuario(Usuario* usuarios[],int cantUsuarios){
+    string nombreUsuario;
+    int idUsuario;
+    cout<<"Ingrese el nombre del usuario: ";
+    getline(cin,nombreUsuario);
+    cin.ignore();
+    cout<<"Ingrese la id del usuario: ";
+    cin>>idUsuario;
+    Usuario* usuarioBuscado= buscarUsuario(usuarios,cantUsuarios,nombreUsuario,idUsuario);
+    if(usuarioBuscado != nullptr){
+        cout<<"Este usuario, nombre o id ya existe"<<endl;
+    }else{
+        Usuario* usuario = new Usuario(nombreUsuario, idUsuario);
+        agregarUsuario(usuarios,cantUsuarios,usuario);
+        cout<<"El usuario fue creado con exito"<<endl;
+    }
+}
+
+
 void eliminarUsuario(){}
-void gestionUsuarios(){
+void gestionUsuarios(Usuario* usuarios[],int cantUsuarios){
+    string nombreUsuario;
+    int id;
     cout<<"1. Crear usuario";
     cout<<"2. Buscar usuario";
     cout<<"3. Eliminar usuario";
     cout<<"Ingrese una opción: ";
     int opcionUsuario;
     cin>>opcionUsuario;
+    
 
     switch(opcionUsuario){
         case 1:
-        crearUsuario();
+        crearUsuario(usuarios,cantUsuarios);
         break;
 
         case 2:
-        buscarUsuario();
+        menuBuscarUsuario(usuarios,cantUsuarios);
         break;
 
         case 3:
@@ -275,7 +340,9 @@ void gestionUsuarios(){
 
 int main(){
     int medida = 100;
+    int cantUsuarios = 50;
     MaterialBibliografico* biblioteca[medida] = {nullptr};
+    Usuario* usuarios[cantUsuarios] = {nullptr};
     int opcion;
     do{
         mostrarMenu();
@@ -295,9 +362,11 @@ int main(){
             break;
 
             case 4:
+            prestarYDevolverMaterial(biblioteca,medida);
             break;
 
             case 5:
+            gestionUsuarios(usuarios,cantUsuarios);
             break;
 
             case 6:

@@ -6,16 +6,16 @@ using namespace std;
 class Usuario{
     private:
     string nombre;
-    string id;
+    int id;
     MaterialBibliografico* materialesPrestados[5];
 
     public:
-    Usuario(string nombre, string id);
+    Usuario(string nombre, int id);
     string getNombre();
     void setNombre(string nombre);
 
-    string getId();
-    void setId(string id);
+    int getId();
+    void setId(int id);
 
     void prestarMaterial();
     void devolverMaterial();
