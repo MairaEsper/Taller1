@@ -305,7 +305,39 @@ void crearUsuario(Usuario* usuarios[],int cantUsuarios){
 }
 
 
-void eliminarUsuario(){}
+void eliminarUsuario(Usuario* usuarios[],int cantUsuarios){
+    Usuario* usuario = nullptr;
+    int opcion;
+    string nombre;
+    int id;
+    cout<<"\n1.Nombre";
+    cout<<"\n2.Id";
+    cin>>opcion;
+    switch (opcion){
+
+        case 1:
+        cout<<"Ingrese el nombre: ";
+        cin>>nombre;
+        id = -1;
+        usuario = buscarUsuario(usuarios,cantUsuarios,nombre,id);
+        break;
+
+        case 2:
+        cout<<"Ingrese el id: ";
+        cin>>id;
+        nombre = "";
+        usuario = buscarUsuario(usuarios,cantUsuarios,nombre,id);
+        break;
+
+        default:
+        cout<<"Opcion invalida";
+        break;
+    }
+    if (usuario != nullptr){
+        
+    }
+    
+}
 void gestionUsuarios(Usuario* usuarios[],int cantUsuarios){
     string nombreUsuario;
     int id;
@@ -327,7 +359,7 @@ void gestionUsuarios(Usuario* usuarios[],int cantUsuarios){
         break;
 
         case 3:
-        eliminarUsuario();
+        eliminarUsuario(usuarios,cantUsuarios);
         break;
 
         default:
