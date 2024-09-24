@@ -266,7 +266,6 @@ void menuBuscarUsuario(Usuario* usuarios[],int cantUsuarios){
     }else{
         cout<<"El usuario no existe";
     }
-
 }
 
 

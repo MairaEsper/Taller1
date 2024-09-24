@@ -26,6 +26,21 @@ void Usuario::setId(int id){
 
 void Usuario::prestarMaterial(){}
 void Usuario::devolverMaterial(){}
-void Usuario::mostrarMaterialesPrestados(){}
+void Usuario::mostrarMaterialesPrestados(){
+    cout<<"Sus materiales prestados son: ";
+    bool hayMateriales = false;
+    for (int i = 0; i < 5; i++){
+        if(materialesPrestados[i] != nullptr){
+            cout<<materialesPrestados[i]->getTipo()<<endl;
+            materialesPrestados[i]->mostrarInformacion();
+            hayMateriales = true;
+        }
+    }
+    if (!hayMateriales){
+        cout<<"No tiene materiales"<<endl;
+    }
+    
+    
+}
 
 Usuario::~Usuario(){}
