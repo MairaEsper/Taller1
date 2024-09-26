@@ -34,7 +34,7 @@ void agregarALista(MaterialBibliografico* biblioteca[], int medida, MaterialBibl
 void crearLibro(string nombre, string isbn, string autor, MaterialBibliografico* biblioteca[], int medida){
     string fechaPublicacion;
     do{
-        cout<<"Ingrese la fecha de publicación(dd-mm-yyyy): "; 
+        cout<<"Ingrese la fecha de publicacion(dd-mm-yyyy): "; 
         cin>>fechaPublicacion;
         if(!validarFecha(fechaPublicacion)){
             cout<<"Formato incorrecto. Porfavor ingrese la fecha en el formato dd-mm-yyyy"<<endl;
@@ -47,6 +47,7 @@ void crearLibro(string nombre, string isbn, string autor, MaterialBibliografico*
 
     Libro* libro = new Libro(nombre, isbn, autor, "libro", fechaPublicacion, resumen);
     agregarALista(biblioteca, medida, libro);
+    cout<<"Libro creado con exito"<<endl;
     
 }
 
@@ -55,13 +56,13 @@ void crearRevista(string nombre, string isbn, string autor, MaterialBibliografic
     int numeroEdicion;
     cin>>numeroEdicion;
 
-    cout<<"Ingrese el mes de publicación: ";
+    cout<<"Ingrese el mes de publicacion(dd-mm-yyyy): ";
     string mesPublicacion;
     cin>>mesPublicacion;
 
     Revista* revista = new Revista(nombre, isbn, autor, "revista", numeroEdicion, mesPublicacion);
     agregarALista(biblioteca, medida, revista);
-
+    cout<<"Revista creada con exito"<<endl;
 }
 
 void agregarMateriales(MaterialBibliografico* biblioteca[], int medida){
@@ -73,13 +74,14 @@ void agregarMateriales(MaterialBibliografico* biblioteca[], int medida){
     cout<<"Ingrese el material bibliografico que desea agregar (1. Libro / 2. Revista): ";
     cin>>material;
     if(material == 1 ||material == 2){
+        cin.ignore();
         cout<<"Ingrese el nombre del material: "; 
         getline(cin, nombre);
 
-        cout<<"Ingrese el ISBN:";
+        cout<<"Ingrese el ISBN: ";
         getline(cin,isbn);
 
-        cout<<"Ingrese el autor:";
+        cout<<"Ingrese el autor: ";
         getline(cin, autor);
         
 
@@ -146,11 +148,13 @@ void buscarMaterial(MaterialBibliografico* biblioteca[], int medida){
             }
             if (!encontrado) {
                 cout<<"No se encontraron resultados para: "<<respuesta<<endl;
+                break;
             }
         }while(!encontrado);
     }else{
         cout<<"La Biblioteca esta vacia."<<endl;
     }
+    cin.ignore();
     
 }
 void prestar(MaterialBibliografico* biblioteca[], int medida, string tituloAutor){
@@ -212,7 +216,7 @@ void prestarYDevolverMaterial(MaterialBibliografico* biblioteca[], int medida){
     int opcionPyD;
     string input;
     do{
-        cout<<"1.Prestar"<<endl;
+        cout<<"\n1.Prestar"<<endl;
         cout<<"2.Devolver"<<endl;
         cout<<"3.Salir"<<endl;
         cout<<"\nIngrese una opcion: ";

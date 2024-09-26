@@ -22,7 +22,7 @@ void Libro::setResumen(string resumen){
 }
 
 void Libro::mostrarInformacion(){
-    cout<<"\nNombre: " + this -> nombre + "\nISBN: " + this -> isbn + "\nAutor:"+ this -> autor + "\nFecha de publicación: " + fechaPublicacion + "\nResumen: " + resumen<<endl;
+    cout<<"\nNombre: " + this -> nombre + "\nISBN: " + this -> isbn + "\nAutor:"+ this -> autor + "\nFecha de publicacion: " + fechaPublicacion + "\nResumen: " + resumen<<endl;
 }
 
 Libro::~Libro(){}
