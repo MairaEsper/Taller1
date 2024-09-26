@@ -6,7 +6,8 @@
 using namespace std;
 
 void mostrarMenu(){
-    cout<<"\n1. Agregar material a la biblioteca"<<endl;
+    cout<<"\n==================MENU================"<<endl;
+    cout<<"1. Agregar material a la biblioteca"<<endl;
     cout<<"2. Mostrar informacion de los materiales"<<endl;
     cout<<"3. Buscar material"<<endl;
     cout<<"4. Prestar y devolver material"<<endl;
@@ -52,16 +53,17 @@ void crearLibro(string nombre, string isbn, string autor, MaterialBibliografico*
 }
 
 void crearRevista(string nombre, string isbn, string autor, MaterialBibliografico* biblioteca[], int medida){
-    cout<<"Ingrese el número de edición: "; 
+    cout<<"Ingrese el numero de edicion: "; 
     int numeroEdicion;
     cin>>numeroEdicion;
 
-    cout<<"Ingrese el mes de publicacion(dd-mm-yyyy): ";
+    cout<<"Ingrese el mes de publicacion(enero/febrero/etc): ";
     string mesPublicacion;
     cin>>mesPublicacion;
 
     Revista* revista = new Revista(nombre, isbn, autor, "revista", numeroEdicion, mesPublicacion);
     agregarALista(biblioteca, medida, revista);
+    cin.ignore();
     cout<<"Revista creada con exito"<<endl;
 }
 
@@ -95,7 +97,8 @@ void agregarMateriales(MaterialBibliografico* biblioteca[], int medida){
                 break;
         }
     }else{
-        cout<<"La opcion que eligio es incorrecta/no existe"<<endl;
+        cout<<"\nOpcion invalida. Intente nuevamente"<<endl;
+        cin.ignore();
     }
     
 
@@ -110,16 +113,17 @@ bool hayMaterial(MaterialBibliografico* biblioteca[],int medida){
 }
 void mostrarInfo(MaterialBibliografico* biblioteca[], int medida){
     bool hayMateriales = hayMaterial(biblioteca, medida);
+    cout<<"======Material Bibliografico======";
     if(hayMateriales){
         for(int i = 0;i < medida;i++){
             if(biblioteca[i] != nullptr){
                 biblioteca[i]->mostrarInformacion();
-                break;
             }
         }
     }else{
-        cout<<"La Biblioteca esta vacia."<<endl;
+        cout<<"\nLa Biblioteca esta vacia."<<endl;
     }
+    cout<<"=================================="<<endl;
 }
 
 void buscarMaterial(MaterialBibliografico* biblioteca[], int medida){
@@ -152,7 +156,7 @@ void buscarMaterial(MaterialBibliografico* biblioteca[], int medida){
             }
         }while(!encontrado);
     }else{
-        cout<<"La Biblioteca esta vacia."<<endl;
+        cout<<"\nLa Biblioteca esta vacia."<<endl;
     }
     cin.ignore();
     
@@ -176,11 +180,11 @@ void prestar(MaterialBibliografico* biblioteca[], int medida, string tituloAutor
             }
         }
         if (!encontrado) {
-                cout<<"No se encontraron resultados para: "<<tituloAutor<<endl;
+                cout<<"\nNo se encontraron resultados para: "<<tituloAutor<<endl;
                 return;
             }
     }else{
-        cout<<"La Biblioteca esta vacia."<<endl;
+        cout<<"\nLa Biblioteca esta vacia."<<endl;
     }
 }
 
@@ -204,11 +208,11 @@ void devolver(MaterialBibliografico* biblioteca[], int medida,string tituloAutor
             }
         }
         if (!encontrado) {
-                cout<<"No se encontraron resultados para: "<<tituloAutor<<endl;
+                cout<<"\nNo se encontraron resultados para: "<<tituloAutor<<endl;
                 return;
             }
     }else{
-        cout<<"La Biblioteca esta vacia."<<endl;
+        cout<<"\nLa Biblioteca esta vacia."<<endl;
     }
 }
 
@@ -216,16 +220,17 @@ void prestarYDevolverMaterial(MaterialBibliografico* biblioteca[], int medida){
     int opcionPyD;
     string input;
     do{
-        cout<<"\n1.Prestar"<<endl;
+        cout<<"\n==========="<<endl;
+        cout<<"1.Prestar"<<endl;
         cout<<"2.Devolver"<<endl;
         cout<<"3.Salir"<<endl;
-        cout<<"\nIngrese una opcion: ";
+        cout<<"Ingrese una opcion: ";
         getline(cin,input);
         try{
             opcionPyD = stoi(input);
             
             }catch (invalid_argument&){
-                cout<<"Opcion invalida. Intente nuevamente";
+                cout<<"\nOpcion invalida. Intente nuevamente"<<endl;
                 continue;
             }
         if (opcionPyD ==1 || opcionPyD == 2){
@@ -270,17 +275,17 @@ void menuBuscarUsuario(Usuario* usuarios[],int cantUsuarios){
     string nombre;
     int id;
     do{
-        
-        cout<<"\n1.Nombre";
-        cout<<"\n2.Id";
-        cout<<"\n3.Salir";
-        cout<<"\nIngrese una opcion: ";
+        cout<<"\n========="<<endl;
+        cout<<"1.Nombre"<<endl;
+        cout<<"2.Id"<<endl;
+        cout<<"3.Salir"<<endl;
+        cout<<"Ingrese una opcion: ";
         getline(cin,input);
         try{
             opcionMusuario = stoi(input);
             
             }catch (invalid_argument&){
-                cout<<"Opcion invalida. Intente nuevamente";
+                cout<<"\nOpcion invalida. Intente nuevamente"<<endl;
                 continue;
             }
         if(opcionMusuario == 1 || opcionMusuario == 2){
@@ -324,7 +329,7 @@ void agregarUsuario(Usuario* usuarios[],int cantUsuarios,Usuario* usuario){
             return;  
         }
     }
-    cout<<"La lista de usuarios esta llena";
+    cout<<"\nLa lista de usuarios esta llena"<<endl;
 }
 void crearUsuario(Usuario* usuarios[],int cantUsuarios){
     string nombreUsuario;
@@ -358,16 +363,17 @@ void eliminarUsuario(Usuario* usuarios[],int cantUsuarios){
     int id;
     int idOnombre;
     do{
-        cout<<"\n1.Nombre";
-        cout<<"\n2.Id";
-        cout<<"\n3.Salir";
-        cout<<"\nIngrese una opcion: ";
+        cout<<"\n========="<<endl;
+        cout<<"1.Nombre"<<endl;
+        cout<<"2.Id"<<endl;
+        cout<<"3.Salir"<<endl;
+        cout<<"Ingrese una opcion: ";
         getline(cin,input);
         try{
             opcionEliminar = stoi(input);
             
             }catch (invalid_argument&){
-                cout<<"Opcion invalida. Intente nuevamente";
+                cout<<"\nOpcion invalida. Intente nuevamente"<<endl;
                 continue;
             }
         if(opcionEliminar == 1 || opcionEliminar == 2){
@@ -424,17 +430,18 @@ void gestionUsuarios(Usuario* usuarios[],int cantUsuarios){
     string input;
     int opcionUsuario;
     do{
-        cout<<"\n1. Crear usuario";
-        cout<<"\n2. Buscar usuario";
-        cout<<"\n3. Eliminar usuario";
-        cout<<"\n4. Salir.";
-        cout<<"\nIngrese una opcion: ";
+        cout<<"\n================="<<endl;
+        cout<<"1. Crear usuario"<<endl;
+        cout<<"2. Buscar usuario"<<endl;
+        cout<<"3. Eliminar usuario"<<endl;
+        cout<<"4. Salir"<<endl;
+        cout<<"Ingrese una opcion: ";
         getline(cin,input);
         try{
             opcionUsuario = stoi(input);
         
         }catch (invalid_argument&){
-            cout<<"Opcion invalida. Intente nuevamente";
+            cout<<"\nOpcion invalida. Intente nuevamente"<<endl;
             continue;
         }
         
@@ -477,7 +484,7 @@ int main(){
             opcion = stoi(input);
         
         }catch (invalid_argument&){
-            cout<<"Opcion invalida. Intente nuevamente";
+            cout<<"\nOpcion invalida. Intente nuevamente"<<endl;
             continue;
         }
         if(opcion >= 1 || opcion <=5){
@@ -501,11 +508,10 @@ int main(){
                 case 5:
                 gestionUsuarios(usuarios,cantUsuarios);
                 break;
-
                 
             }
         }else{
-            cout<<"Sistema cerrrado";
+            cout<<"\n====Sistema cerrrado===="<<endl;
         }
         
     }while(opcion != 6);
