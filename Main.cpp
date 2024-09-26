@@ -228,7 +228,7 @@ void prestarYDevolverMaterial(MaterialBibliografico* biblioteca[], int medida){
                 cout<<"Opcion invalida. Intente nuevamente";
                 continue;
             }
-        if (opcionPyD != 3){
+        if (opcionPyD ==1 || opcionPyD == 2){
             string tituloAutor;
             cout<<"Ingrese titulo o nombre: ";
             cin>>tituloAutor;
@@ -283,7 +283,7 @@ void menuBuscarUsuario(Usuario* usuarios[],int cantUsuarios){
                 cout<<"Opcion invalida. Intente nuevamente";
                 continue;
             }
-        if(opcionMusuario != 3){
+        if(opcionMusuario == 1 || opcionMusuario == 2){
             switch (opcionMusuario){
 
                 case 1:
@@ -370,7 +370,7 @@ void eliminarUsuario(Usuario* usuarios[],int cantUsuarios){
                 cout<<"Opcion invalida. Intente nuevamente";
                 continue;
             }
-        if(opcionEliminar != 3){
+        if(opcionEliminar == 1 || opcionEliminar == 2){
             switch (opcionEliminar){
 
                 case 1:
@@ -438,7 +438,7 @@ void gestionUsuarios(Usuario* usuarios[],int cantUsuarios){
             continue;
         }
         
-        if(opcionUsuario != 4){
+        if(opcionUsuario == 1 || opcionUsuario == 2 || opcionUsuario == 3){
             switch(opcionUsuario){
                 case 1:
                 crearUsuario(usuarios,cantUsuarios);
@@ -480,7 +480,7 @@ int main(){
             cout<<"Opcion invalida. Intente nuevamente";
             continue;
         }
-        if(opcion !=6){
+        if(opcion >= 1 || opcion <=5){
             switch(opcion){
                 case 1:
                 agregarMateriales(biblioteca,medida);
