@@ -7,7 +7,7 @@ using namespace std;
 
 void mostrarMenu(){
     cout<<"\n1. Agregar material a la biblioteca"<<endl;
-    cout<<"2. Mostrar información de los materiales"<<endl;
+    cout<<"2. Mostrar informacion de los materiales"<<endl;
     cout<<"3. Buscar material"<<endl;
     cout<<"4. Prestar y devolver material"<<endl;
     cout<<"5. Gestion de usuarios"<<endl;
@@ -72,30 +72,30 @@ void agregarMateriales(MaterialBibliografico* biblioteca[], int medida){
 
     cout<<"Ingrese el material bibliografico que desea agregar (1. Libro / 2. Revista): ";
     cin>>material;
+    if(material == 1 ||material == 2){
+        cout<<"Ingrese el nombre del material: "; 
+        getline(cin, nombre);
 
-    cout<<"Ingrese el nombre del material: "; 
-    getline(cin, nombre);
+        cout<<"Ingrese el ISBN:";
+        getline(cin,isbn);
 
-    cout<<"Ingrese el ISBN:";
-    cin>>isbn;
+        cout<<"Ingrese el autor:";
+        getline(cin, autor);
+        
 
-    cout<<"Ingrese el autor:";
-    getline(cin, autor);
-    
+        switch(material){
+            case 1:
+                crearLibro(nombre, isbn, autor, biblioteca, medida);
+                break;
 
-    switch(material){
-        case 1:
-            crearLibro(nombre, isbn, autor, biblioteca, medida);
-            break;
-
-        case 2:
-            crearRevista(nombre, isbn, autor, biblioteca, medida);
-            break;
-
-        default:
-            cout<<"La opcion que eligio es incorrecta/no existe"<<endl;
-            break;
+            case 2:
+                crearRevista(nombre, isbn, autor, biblioteca, medida);
+                break;
+        }
+    }else{
+        cout<<"La opcion que eligio es incorrecta/no existe"<<endl;
     }
+    
 
 }
 bool hayMaterial(MaterialBibliografico* biblioteca[],int medida){
@@ -112,6 +112,7 @@ void mostrarInfo(MaterialBibliografico* biblioteca[], int medida){
         for(int i = 0;i < medida;i++){
             if(biblioteca[i] != nullptr){
                 biblioteca[i]->mostrarInformacion();
+                break;
             }
         }
     }else{
@@ -134,10 +135,12 @@ void buscarMaterial(MaterialBibliografico* biblioteca[], int medida){
                     if (biblioteca[i]->getNombre() == respuesta) {
                         biblioteca[i]->mostrarInformacion();
                         encontrado = true;
+                        break;
                     }
                     if (biblioteca[i]->getAutor() == respuesta) {
                         biblioteca[i]->mostrarInformacion();
                         encontrado = true;
+                        break;
                     }
                 }
             }
@@ -170,6 +173,7 @@ void prestar(MaterialBibliografico* biblioteca[], int medida, string tituloAutor
         }
         if (!encontrado) {
                 cout<<"No se encontraron resultados para: "<<tituloAutor<<endl;
+                return;
             }
     }else{
         cout<<"La Biblioteca esta vacia."<<endl;
@@ -197,6 +201,7 @@ void devolver(MaterialBibliografico* biblioteca[], int medida,string tituloAutor
         }
         if (!encontrado) {
                 cout<<"No se encontraron resultados para: "<<tituloAutor<<endl;
+                return;
             }
     }else{
         cout<<"La Biblioteca esta vacia."<<endl;
@@ -219,23 +224,25 @@ void prestarYDevolverMaterial(MaterialBibliografico* biblioteca[], int medida){
                 cout<<"Opcion invalida. Intente nuevamente";
                 continue;
             }
+        if (opcionPyD != 3){
+            string tituloAutor;
+            cout<<"Ingrese titulo o nombre: ";
+            cin>>tituloAutor;
+            switch(opcionPyD){
+                case 1:
+                prestar(biblioteca,medida,tituloAutor);
+                cin.ignore();
+                break;
 
-        string tituloAutor;
-        cout<<"Ingrese titulo o nombre: ";
-        cin>>tituloAutor;
-        switch(opcionPyD){
-            case 1:
-            prestar(biblioteca,medida,tituloAutor);
-            break;
+                case 2:
+                devolver(biblioteca,medida,tituloAutor);
+                cin.ignore();
+                break;
 
-            case 2:
-            devolver(biblioteca,medida,tituloAutor);
-            break;
-
-            default:
-            cout<<"la opcion no es valida"<<endl;
-            break;
+            }    
         }
+        
+        
     }while(opcionPyD !=3);
 }
 
@@ -259,6 +266,7 @@ void menuBuscarUsuario(Usuario* usuarios[],int cantUsuarios){
     string nombre;
     int id;
     do{
+        
         cout<<"\n1.Nombre";
         cout<<"\n2.Id";
         cout<<"\n3.Salir";
@@ -271,32 +279,38 @@ void menuBuscarUsuario(Usuario* usuarios[],int cantUsuarios){
                 cout<<"Opcion invalida. Intente nuevamente";
                 continue;
             }
-        switch (opcionMusuario){
+        if(opcionMusuario != 3){
+            switch (opcionMusuario){
 
-            case 1:
-            cout<<"Ingrese el nombre: ";
-            cin>>nombre;
-            id = -1;
-            usuario = buscarUsuario(usuarios,cantUsuarios,nombre,id);
-            break;
+                case 1:
+                cout<<"Ingrese el nombre: ";
+                cin>>nombre;
+                id = -1;
+                usuario = buscarUsuario(usuarios,cantUsuarios,nombre,id);
+                break;
 
-            case 2:
-            cout<<"Ingresa el id: ";
-            cin>>id;
-            nombre = "";
-            usuario = buscarUsuario(usuarios,cantUsuarios,nombre,id);
-            break;
+                case 2:
+                cout<<"Ingresa el id: ";
+                cin>>id;
+                nombre = "";
+                usuario = buscarUsuario(usuarios,cantUsuarios,nombre,id);
+                break;
 
-        }
-        if(usuario != nullptr){
-            cout<<"El usuario buscado: "+usuario->getNombre()+"Id: "<<usuario->getId()<<endl;
-            usuario->mostrarMaterialesPrestados();
-        }else{
-            cout<<"El usuario no existe";
+            }
+            if(usuario != nullptr){
+                cout<<"El usuario buscado: "+usuario->getNombre()+"Id: "<<usuario->getId()<<endl;
+                usuario->mostrarMaterialesPrestados();
+                cin.ignore();
+                continue;
+            }else if(usuario == nullptr){
+                cout<<"El usuario no existe";
+                cin.ignore();
+                continue;
+            }
         }
         
+        
     }while(opcionMusuario != 3);
-    cin.ignore();
 }
 
 void agregarUsuario(Usuario* usuarios[],int cantUsuarios,Usuario* usuario){
@@ -319,13 +333,16 @@ void crearUsuario(Usuario* usuarios[],int cantUsuarios){
     
     if(usuarioBuscado != nullptr){
         cout<<"Este usuario, nombre o id ya existe"<<endl;
+        cin.ignore();
+        return;
     }else{
         Usuario* usuario = new Usuario(nombreUsuario, idUsuario);
         cout<<"El usuario fue creado con exito"<<endl;
         agregarUsuario(usuarios,cantUsuarios,usuario);
-        
+        cin.ignore();
+        return;
     }
-    cin.ignore();
+    
 }
 
 
@@ -349,46 +366,53 @@ void eliminarUsuario(Usuario* usuarios[],int cantUsuarios){
                 cout<<"Opcion invalida. Intente nuevamente";
                 continue;
             }
-        
-        switch (opcionEliminar){
+        if(opcionEliminar != 3){
+            switch (opcionEliminar){
 
-            case 1:
-            cout<<"Ingrese el nombre: ";
-            cin>>nombre;
-            id = -1;
-            usuario = buscarUsuario(usuarios,cantUsuarios,nombre,id);
-            idOnombre = 1;
-            break;
+                case 1:
+                cout<<"Ingrese el nombre: ";
+                cin>>nombre;
+                id = -1;
+                usuario = buscarUsuario(usuarios,cantUsuarios,nombre,id);
+                idOnombre = 1;
+                break;
 
-            case 2:
-            cout<<"Ingrese el id: ";
-            cin>>id;
-            nombre = "";
-            usuario = buscarUsuario(usuarios,cantUsuarios,nombre,id);
-            idOnombre = 2;
-            break;
+                case 2:
+                cout<<"Ingrese el id: ";
+                cin>>id;
+                nombre = "";
+                usuario = buscarUsuario(usuarios,cantUsuarios,nombre,id);
+                idOnombre = 2;
+                break;
+            }
+            for(int i = 0;i <cantUsuarios;i++){
+                if(usuarios[i] != nullptr){
+                    if(idOnombre==1){
+                        if (usuarios[i]->getNombre() == usuario->getNombre()){
+                            delete usuarios[i];
+                            usuarios[i] = nullptr;
+                            cout<<"Usuario eliminado con exito";
+                            cin.ignore();
+                            break;    
+                        }
+                    }else if(idOnombre==2){
+                        if(usuarios[i]->getId() == usuario->getId()){
+                            delete usuarios[i];
+                            usuarios[i] = nullptr;
+                            cout<<"Usuario eliminado con exito";
+                            cin.ignore();
+                            break;
+                        }
+                    }else{
+                        cout<<"Error";
+                        cin.ignore();
+                        break;
+                    }
+                }    
+            }        
         }
-        for(int i = 0;i <cantUsuarios;i++){
-            if(usuarios[i] != nullptr){
-                if(idOnombre==1){
-                    if (usuarios[i]->getNombre() == usuario->getNombre()){
-                        delete usuarios[i];
-                        usuarios[i] = nullptr;
-                        cout<<"Usuario eliminado con exito";    
-                    }
-                }else if(idOnombre==2){
-                    if(usuarios[i]->getId() == usuario->getId()){
-                        delete usuarios[i];
-                        usuarios[i] = nullptr;
-                        cout<<"Usuario eliminado con exito";
-                    }
-                }else{
-                    cout<<"Error";
-                }
-            }    
-        }        
+        
     }while(opcionEliminar != 3);
-    cin.ignore();
 }
 void gestionUsuarios(Usuario* usuarios[],int cantUsuarios){
     string nombreUsuario;
@@ -410,20 +434,22 @@ void gestionUsuarios(Usuario* usuarios[],int cantUsuarios){
             continue;
         }
         
+        if(opcionUsuario != 4){
+            switch(opcionUsuario){
+                case 1:
+                crearUsuario(usuarios,cantUsuarios);
+                break;
 
-        switch(opcionUsuario){
-            case 1:
-            crearUsuario(usuarios,cantUsuarios);
-            break;
+                case 2:
+                menuBuscarUsuario(usuarios,cantUsuarios);
+                break;
 
-            case 2:
-            menuBuscarUsuario(usuarios,cantUsuarios);
-            break;
-
-            case 3:
-            eliminarUsuario(usuarios,cantUsuarios);
-            break;
+                case 3:
+                eliminarUsuario(usuarios,cantUsuarios);
+                break;
+            }
         }
+        
 
     }while(opcionUsuario != 4);
 } //Implementar la funcionalidad para crear, buscar y eliminar usuarios. Asociar materiales prestados a usuarios específicos. 
@@ -450,31 +476,32 @@ int main(){
             cout<<"Opcion invalida. Intente nuevamente";
             continue;
         }
-        
-        switch(opcion){
-            case 1:
-            agregarMateriales(biblioteca,medida);
-            break;
+        if(opcion !=6){
+            switch(opcion){
+                case 1:
+                agregarMateriales(biblioteca,medida);
+                break;
 
-            case 2:
-            mostrarInfo(biblioteca,medida);
-            break;
+                case 2:
+                mostrarInfo(biblioteca,medida);
+                break;
 
-            case 3:
-            buscarMaterial(biblioteca,medida);
-            break;
+                case 3:
+                buscarMaterial(biblioteca,medida);
+                break;
 
-            case 4:
-            prestarYDevolverMaterial(biblioteca,medida);
-            break;
+                case 4:
+                prestarYDevolverMaterial(biblioteca,medida);
+                break;
 
-            case 5:
-            gestionUsuarios(usuarios,cantUsuarios);
-            break;
+                case 5:
+                gestionUsuarios(usuarios,cantUsuarios);
+                break;
 
-            case 6:
-            cout<<"Sistema Cerrado"; 
-            break;
+                
+            }
+        }else{
+            cout<<"Sistema cerrrado";
         }
         
     }while(opcion != 6);
