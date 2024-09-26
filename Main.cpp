@@ -161,7 +161,19 @@ void buscarMaterial(MaterialBibliografico* biblioteca[], int medida){
     cin.ignore();
     
 }
-void prestar(MaterialBibliografico* biblioteca[], int medida, string tituloAutor){
+Usuario* buscarUsuario(Usuario* usuarios[],int cantUsuarios,string nombreUsuario,int idUsuario){
+    for(int i = 0; i < cantUsuarios; i++){
+
+        if(usuarios[i]!= nullptr){
+            if(usuarios[i]->getNombre() == nombreUsuario || usuarios[i]->getId() == idUsuario){
+                return usuarios[i];
+            }
+        }
+        
+    }
+    return nullptr;
+}
+void prestar(MaterialBibliografico* biblioteca[], int medida, string tituloAutor,Usuario* usuario){
     bool hayMateriales = hayMaterial(biblioteca, medida);
     if(hayMateriales){
         bool encontrado = false;
@@ -169,9 +181,15 @@ void prestar(MaterialBibliografico* biblioteca[], int medida, string tituloAutor
             if (biblioteca[i] != nullptr) {
                     if ((biblioteca[i]->getNombre() == tituloAutor || biblioteca[i]->getAutor() == tituloAutor) && biblioteca[i]->getPrestado() == false) {
                         biblioteca[i]-> setPrestado(true);
-                        encontrado = true;
-                        cout<<"El material ha sido prestado con exito"<<endl;
-                        return;
+                        bool espacioSuf = usuario->prestarMaterial(biblioteca[i]);
+                        if(espacioSuf == true){
+                            encontrado = true;
+                            cout<<"El material ha sido prestado con exito"<<endl;
+                            return;
+                        }else{
+                            cout<<"No hay espacio suficiente"<<endl;
+                            return;
+                        }
                     }else if((biblioteca[i]->getNombre() == tituloAutor || biblioteca[i]->getAutor() == tituloAutor) && biblioteca[i]->getPrestado() == true){
                         cout<<"Este material ya esta prestado."<<endl;
                         encontrado = true;
@@ -189,7 +207,7 @@ void prestar(MaterialBibliografico* biblioteca[], int medida, string tituloAutor
 }
 
 
-void devolver(MaterialBibliografico* biblioteca[], int medida,string tituloAutor){
+void devolver(MaterialBibliografico* biblioteca[], int medida,string tituloAutor, Usuario* usuario){
     bool hayMateriales = hayMaterial(biblioteca, medida);
     if(hayMateriales){
         bool encontrado = false;
@@ -197,9 +215,15 @@ void devolver(MaterialBibliografico* biblioteca[], int medida,string tituloAutor
             if (biblioteca[i] != nullptr) {
                     if ((biblioteca[i]->getNombre() == tituloAutor || biblioteca[i]->getAutor() == tituloAutor) && biblioteca[i]->getPrestado() == true) {
                         biblioteca[i]-> setPrestado(false);
-                        encontrado = true;
-                        cout<<"El material ha sido devuelto con exito"<<endl;
-                        return;
+                        bool devolverExito = usuario->devolverMaterial(biblioteca[i]);
+                        if(devolverExito == true){
+                            encontrado = true;
+                            cout<<"El material ha sido devuelto con exito"<<endl;
+                            return;
+                        }else{
+                            cout<<"El material no ha sido devuelto"<<endl;
+                            return;
+                        }
                     }else if((biblioteca[i]->getNombre() == tituloAutor || biblioteca[i]->getAutor() == tituloAutor) && biblioteca[i]->getPrestado() == false){
                         cout<<"Este material no ha sido prestado."<<endl;
                         encontrado = true;
@@ -216,7 +240,7 @@ void devolver(MaterialBibliografico* biblioteca[], int medida,string tituloAutor
     }
 }
 
-void prestarYDevolverMaterial(MaterialBibliografico* biblioteca[], int medida){
+void prestarYDevolverMaterial(MaterialBibliografico* biblioteca[], int medida,Usuario* usuarios[]){
     int opcionPyD;
     string input;
     do{
@@ -233,39 +257,39 @@ void prestarYDevolverMaterial(MaterialBibliografico* biblioteca[], int medida){
                 cout<<"\nOpcion invalida. Intente nuevamente"<<endl;
                 continue;
             }
-        if (opcionPyD ==1 || opcionPyD == 2){
+        if (opcionPyD == 1 || opcionPyD == 2){
             string tituloAutor;
             cout<<"Ingrese titulo o nombre: ";
             cin>>tituloAutor;
-            switch(opcionPyD){
-                case 1:
-                prestar(biblioteca,medida,tituloAutor);
-                cin.ignore();
-                break;
+            string nombreUsuarioPresDevol;
+            int idUsuarioPresDevol = -1;
+            if(opcionPyD == 1){
+                cout<<"Prestar a Usuario(nombre): ";
+                cin>>nombreUsuarioPresDevol;
+            }else{
+                cout<<"Devolucion por parte de Usuario(nombre): ";
+                cin>>nombreUsuarioPresDevol;
+            }
+            
+            Usuario* usuario = buscarUsuario(usuarios,medida,nombreUsuarioPresDevol,idUsuarioPresDevol);
+            if(usuario != nullptr){
+                switch(opcionPyD){
+                    case 1:
+                    prestar(biblioteca,medida,tituloAutor,usuario);
+                    cin.ignore();
+                    break;
 
-                case 2:
-                devolver(biblioteca,medida,tituloAutor);
-                cin.ignore();
-                break;
+                    case 2:
+                    devolver(biblioteca,medida,tituloAutor,usuario);
+                    cin.ignore();
+                    break;
 
-            }    
+                }    
+            }
+            continue;
         }
-        
         
     }while(opcionPyD !=3);
-}
-
-Usuario* buscarUsuario(Usuario* usuarios[],int cantUsuarios,string nombreUsuario,int idUsuario){
-    for(int i = 0; i < cantUsuarios; i++){
-
-        if(usuarios[i]!= nullptr){
-            if(usuarios[i]->getNombre() == nombreUsuario || usuarios[i]->getId() == idUsuario){
-                return usuarios[i];
-            }
-        }
-        
-    }
-    return nullptr;
 }
 
 void menuBuscarUsuario(Usuario* usuarios[],int cantUsuarios){
@@ -502,7 +526,7 @@ int main(){
                 break;
 
                 case 4:
-                prestarYDevolverMaterial(biblioteca,medida);
+                prestarYDevolverMaterial(biblioteca,medida,usuarios);
                 break;
 
                 case 5:

@@ -24,10 +24,27 @@ void Usuario::setId(int id){
     this -> id = id;
 }
 
-void Usuario::prestarMaterial(){}
-void Usuario::devolverMaterial(){}
+bool Usuario::prestarMaterial(MaterialBibliografico* material){for (int i = 0; i < 5; i++){
+            if(materialesPrestados[i] == nullptr){
+                materialesPrestados[i] = material;
+                return true;
+            }
+        }
+        return false;
+}
+bool Usuario::devolverMaterial(MaterialBibliografico* material){
+    for (int i = 0; i < 5; i++){
+        if(material->getNombre() == materialesPrestados[i]->getNombre() || material->getAutor() == materialesPrestados[i]->getAutor()){
+            delete materialesPrestados[i];
+            materialesPrestados[i] = nullptr;
+            return true;    
+        }
+    }
+    return false;
+    
+}
 void Usuario::mostrarMaterialesPrestados(){
-    cout<<"Sus materiales prestados son: ";
+    cout<<"Sus materiales prestados son: "<<endl;
     bool hayMateriales = false;
     for (int i = 0; i < 5; i++){
         if(materialesPrestados[i] != nullptr){

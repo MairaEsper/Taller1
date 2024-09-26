@@ -17,8 +17,8 @@ class Usuario{
     int getId();
     void setId(int id);
 
-    void prestarMaterial();
-    void devolverMaterial();
+    bool prestarMaterial(MaterialBibliografico* material);
+    bool devolverMaterial(MaterialBibliografico* material);
     void mostrarMaterialesPrestados();
     ~Usuario();
 };
