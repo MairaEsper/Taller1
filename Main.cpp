@@ -113,7 +113,7 @@ bool hayMaterial(MaterialBibliografico* biblioteca[],int medida){
 }
 void mostrarInfo(MaterialBibliografico* biblioteca[], int medida){
     bool hayMateriales = hayMaterial(biblioteca, medida);
-    cout<<"======Material Bibliografico======";
+    cout<<"\n_____Material Bibliografico_____";
     if(hayMateriales){
         for(int i = 0;i < medida;i++){
             if(biblioteca[i] != nullptr){
@@ -123,7 +123,7 @@ void mostrarInfo(MaterialBibliografico* biblioteca[], int medida){
     }else{
         cout<<"\nLa Biblioteca esta vacia."<<endl;
     }
-    cout<<"=================================="<<endl;
+    cout<<"__________________________________"<<endl;
 }
 
 void buscarMaterial(MaterialBibliografico* biblioteca[], int medida){

@@ -42,7 +42,7 @@ bool MaterialBibliografico::getPrestado(){
     return prestado;
 }
 void MaterialBibliografico::setPrestado(bool prestado){
-    this -> prestado = false;
+    this -> prestado = prestado;
 }
 
 void MaterialBibliografico::mostrarInformacion(){
