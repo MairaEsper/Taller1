@@ -73,14 +73,12 @@ void agregarMateriales(MaterialBibliografico* biblioteca[], int medida){
     cout<<"Ingrese el material bibliografico que desea agregar (1. Libro / 2. Revista): ";
     cin>>material;
 
-    cin.ignore();
     cout<<"Ingrese el nombre del material: "; 
     getline(cin, nombre);
 
     cout<<"Ingrese el ISBN:";
     cin>>isbn;
 
-    cin.ignore();
     cout<<"Ingrese el autor:";
     getline(cin, autor);
     
@@ -206,17 +204,26 @@ void devolver(MaterialBibliografico* biblioteca[], int medida,string tituloAutor
 }
 
 void prestarYDevolverMaterial(MaterialBibliografico* biblioteca[], int medida){
-    int opcion;
+    int opcionPyD;
+    string input;
     do{
         cout<<"1.Prestar"<<endl;
         cout<<"2.Devolver"<<endl;
         cout<<"3.Salir"<<endl;
-        cout<<"Ingrese una opcion: ";
-        cin>>opcion;
+        cout<<"\nIngrese una opcion: ";
+        getline(cin,input);
+        try{
+            opcionPyD = stoi(input);
+            
+            }catch (invalid_argument&){
+                cout<<"Opcion invalida. Intente nuevamente";
+                continue;
+            }
+
         string tituloAutor;
         cout<<"Ingrese titulo o nombre: ";
         cin>>tituloAutor;
-        switch(opcion){
+        switch(opcionPyD){
             case 1:
             prestar(biblioteca,medida,tituloAutor);
             break;
@@ -229,11 +236,12 @@ void prestarYDevolverMaterial(MaterialBibliografico* biblioteca[], int medida){
             cout<<"la opcion no es valida"<<endl;
             break;
         }
-    }while(opcion !=3);
+    }while(opcionPyD !=3);
 }
 
 Usuario* buscarUsuario(Usuario* usuarios[],int cantUsuarios,string nombreUsuario,int idUsuario){
     for(int i = 0; i < cantUsuarios; i++){
+
         if(usuarios[i]!= nullptr){
             if(usuarios[i]->getNombre() == nombreUsuario || usuarios[i]->getId() == idUsuario){
                 return usuarios[i];
@@ -246,38 +254,49 @@ Usuario* buscarUsuario(Usuario* usuarios[],int cantUsuarios,string nombreUsuario
 
 void menuBuscarUsuario(Usuario* usuarios[],int cantUsuarios){
     Usuario* usuario = nullptr;
-    int opcion;
+    int opcionMusuario;
+    string input;
     string nombre;
     int id;
-    cout<<"\n1.Nombre";
-    cout<<"\n2.Id";
-    cin>>opcion;
-    switch (opcion){
+    do{
+        cout<<"\n1.Nombre";
+        cout<<"\n2.Id";
+        cout<<"\n3.Salir";
+        cout<<"\nIngrese una opcion: ";
+        getline(cin,input);
+        try{
+            opcionMusuario = stoi(input);
+            
+            }catch (invalid_argument&){
+                cout<<"Opcion invalida. Intente nuevamente";
+                continue;
+            }
+        switch (opcionMusuario){
 
-        case 1:
-        cout<<"Ingrese el nombre: ";
-        cin>>nombre;
-        id = -1;
-        usuario = buscarUsuario(usuarios,cantUsuarios,nombre,id);
-        break;
+            case 1:
+            cout<<"Ingrese el nombre: ";
+            cin>>nombre;
+            id = -1;
+            usuario = buscarUsuario(usuarios,cantUsuarios,nombre,id);
+            break;
 
-        case 2:
-        cout<<"Ingresa el id: ";
-        cin>>id;
-        nombre = "";
-        usuario = buscarUsuario(usuarios,cantUsuarios,nombre,id);
-        break;
+            case 2:
+            cout<<"Ingresa el id: ";
+            cin>>id;
+            nombre = "";
+            usuario = buscarUsuario(usuarios,cantUsuarios,nombre,id);
+            break;
 
-        default:
-        cout<<"Opcion invalida";
-        break;
-    }
-    if(usuario != nullptr){
-        cout<<"El usuario buscado: "+usuario->getNombre()<<usuario->getId()<<endl;
-        usuario->mostrarMaterialesPrestados();
-    }else{
-        cout<<"El usuario no existe";
-    }
+        }
+        if(usuario != nullptr){
+            cout<<"El usuario buscado: "+usuario->getNombre()+"Id: "<<usuario->getId()<<endl;
+            usuario->mostrarMaterialesPrestados();
+        }else{
+            cout<<"El usuario no existe";
+        }
+        
+    }while(opcionMusuario != 3);
+    cin.ignore();
 }
 
 void agregarUsuario(Usuario* usuarios[],int cantUsuarios,Usuario* usuario){
@@ -293,11 +312,9 @@ void crearUsuario(Usuario* usuarios[],int cantUsuarios){
     string nombreUsuario;
     int idUsuario;
     cout<<"Ingrese el nombre del usuario: ";
-    cin.ignore();
     getline(cin,nombreUsuario);
     cout<<"Ingrese la id del usuario: ";
     cin>>idUsuario;
-    cout<<"El usuario fue creado con exito"<<endl;
     Usuario* usuarioBuscado= buscarUsuario(usuarios,cantUsuarios,nombreUsuario,idUsuario);
     
     if(usuarioBuscado != nullptr){
@@ -308,70 +325,107 @@ void crearUsuario(Usuario* usuarios[],int cantUsuarios){
         agregarUsuario(usuarios,cantUsuarios,usuario);
         
     }
+    cin.ignore();
 }
 
 
 void eliminarUsuario(Usuario* usuarios[],int cantUsuarios){
     Usuario* usuario = nullptr;
-    int opcion;
+    int opcionEliminar;
+    string input;
     string nombre;
     int id;
-    cout<<"\n1.Nombre";
-    cout<<"\n2.Id";
-    cin>>opcion;
-    switch (opcion){
+    int idOnombre;
+    do{
+        cout<<"\n1.Nombre";
+        cout<<"\n2.Id";
+        cout<<"\n3.Salir";
+        cout<<"\nIngrese una opcion: ";
+        getline(cin,input);
+        try{
+            opcionEliminar = stoi(input);
+            
+            }catch (invalid_argument&){
+                cout<<"Opcion invalida. Intente nuevamente";
+                continue;
+            }
+        
+        switch (opcionEliminar){
 
-        case 1:
-        cout<<"Ingrese el nombre: ";
-        cin>>nombre;
-        id = -1;
-        usuario = buscarUsuario(usuarios,cantUsuarios,nombre,id);
-        break;
+            case 1:
+            cout<<"Ingrese el nombre: ";
+            cin>>nombre;
+            id = -1;
+            usuario = buscarUsuario(usuarios,cantUsuarios,nombre,id);
+            idOnombre = 1;
+            break;
 
-        case 2:
-        cout<<"Ingrese el id: ";
-        cin>>id;
-        nombre = "";
-        usuario = buscarUsuario(usuarios,cantUsuarios,nombre,id);
-        break;
-
-        default:
-        cout<<"Opcion invalida";
-        break;
-    }
-    if (usuario != nullptr){
-        delete usuario;
-    }
-    
+            case 2:
+            cout<<"Ingrese el id: ";
+            cin>>id;
+            nombre = "";
+            usuario = buscarUsuario(usuarios,cantUsuarios,nombre,id);
+            idOnombre = 2;
+            break;
+        }
+        for(int i = 0;i <cantUsuarios;i++){
+            if(usuarios[i] != nullptr){
+                if(idOnombre==1){
+                    if (usuarios[i]->getNombre() == usuario->getNombre()){
+                        delete usuarios[i];
+                        usuarios[i] = nullptr;
+                        cout<<"Usuario eliminado con exito";    
+                    }
+                }else if(idOnombre==2){
+                    if(usuarios[i]->getId() == usuario->getId()){
+                        delete usuarios[i];
+                        usuarios[i] = nullptr;
+                        cout<<"Usuario eliminado con exito";
+                    }
+                }else{
+                    cout<<"Error";
+                }
+            }    
+        }        
+    }while(opcionEliminar != 3);
+    cin.ignore();
 }
 void gestionUsuarios(Usuario* usuarios[],int cantUsuarios){
     string nombreUsuario;
     int id;
-    cout<<"\n1. Crear usuario";
-    cout<<"\n2. Buscar usuario";
-    cout<<"\n3. Eliminar usuario";
-    cout<<"\nIngrese una opción: ";
+    string input;
     int opcionUsuario;
-    cin>>opcionUsuario;
-    
+    do{
+        cout<<"\n1. Crear usuario";
+        cout<<"\n2. Buscar usuario";
+        cout<<"\n3. Eliminar usuario";
+        cout<<"\n4. Salir.";
+        cout<<"\nIngrese una opcion: ";
+        getline(cin,input);
+        try{
+            opcionUsuario = stoi(input);
+        
+        }catch (invalid_argument&){
+            cout<<"Opcion invalida. Intente nuevamente";
+            continue;
+        }
+        
 
-    switch(opcionUsuario){
-        case 1:
-        crearUsuario(usuarios,cantUsuarios);
-        break;
+        switch(opcionUsuario){
+            case 1:
+            crearUsuario(usuarios,cantUsuarios);
+            break;
 
-        case 2:
-        menuBuscarUsuario(usuarios,cantUsuarios);
-        break;
+            case 2:
+            menuBuscarUsuario(usuarios,cantUsuarios);
+            break;
 
-        case 3:
-        eliminarUsuario(usuarios,cantUsuarios);
-        break;
+            case 3:
+            eliminarUsuario(usuarios,cantUsuarios);
+            break;
+        }
 
-        default:
-        cout<<"la opcion no es valida"<<endl;
-        break;
-    }
+    }while(opcionUsuario != 4);
 } //Implementar la funcionalidad para crear, buscar y eliminar usuarios. Asociar materiales prestados a usuarios específicos. 
     
 
@@ -393,7 +447,7 @@ int main(){
             opcion = stoi(input);
         
         }catch (invalid_argument&){
-            cout<<"Opcion invalida. Intente nuevamente: ";
+            cout<<"Opcion invalida. Intente nuevamente";
             continue;
         }
         
