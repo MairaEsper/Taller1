@@ -3,6 +3,7 @@
 #include "Libro.h"
 #include "Revista.h"
 #include "Usuario.h"
+#include <fstream>
 using namespace std;
 
 void mostrarMenu(){
@@ -11,8 +12,9 @@ void mostrarMenu(){
     cout<<"2. Mostrar informacion de los materiales"<<endl;
     cout<<"3. Buscar material"<<endl;
     cout<<"4. Prestar y devolver material"<<endl;
-    cout<<"5. Gestion de usuarios"<<endl;
-    cout<<"6. Salir"<<endl;
+    cout<<"5. Prestar y devolver material"<<endl;
+    cout<<"6. Gestion de usuarios"<<endl;
+    cout<<"7. Salir"<<endl;
     cout<<"Elija una opcion: ";
 }
 
@@ -126,7 +128,7 @@ void mostrarInfo(MaterialBibliografico* biblioteca[], int medida){
     cout<<"__________________________________"<<endl;
 }
 
-void buscarMaterial(MaterialBibliografico* biblioteca[], int medida){
+MaterialBibliografico* buscarMaterial(MaterialBibliografico* biblioteca[], int medida){
     string respuesta;
     bool hayMateriales = hayMaterial(biblioteca, medida);
     
@@ -139,14 +141,12 @@ void buscarMaterial(MaterialBibliografico* biblioteca[], int medida){
             for (int i = 0; i < medida; i++) {
                 if (biblioteca[i] != nullptr) {
                     if (biblioteca[i]->getNombre() == respuesta) {
-                        biblioteca[i]->mostrarInformacion();
                         encontrado = true;
-                        break;
+                        return biblioteca[i];
                     }
                     if (biblioteca[i]->getAutor() == respuesta) {
-                        biblioteca[i]->mostrarInformacion();
                         encontrado = true;
-                        break;
+                        return biblioteca[i];
                     }
                 }
             }
@@ -331,7 +331,7 @@ void menuBuscarUsuario(Usuario* usuarios[],int cantUsuarios){
 
             }
             if(usuario != nullptr){
-                cout<<"El usuario buscado: "+usuario->getNombre()+"Id: "<<usuario->getId()<<endl;
+                cout<<"El usuario buscado: "+usuario->getNombre()+" Id: "<<usuario->getId()<<endl;
                 usuario->mostrarMaterialesPrestados();
                 cin.ignore();
                 continue;
@@ -488,7 +488,85 @@ void gestionUsuarios(Usuario* usuarios[],int cantUsuarios){
 
     }while(opcionUsuario != 4);
 } //Implementar la funcionalidad para crear, buscar y eliminar usuarios. Asociar materiales prestados a usuarios específicos. 
-    
+
+
+void guardarLibroRevista(MaterialBibliografico* biblioteca[],int medida){
+        int opcion;
+        ofstream archivo("materiales.txt", ios::app);
+        do{
+            cout<<"========="<<endl;
+            cout<<"1.Libro"<<endl;
+            cout<<"2.Revista"<<endl;
+            cout<<"3.Salir"<<endl;
+            if(opcion>=1 || opcion <=2){
+                switch (opcion)
+                {
+                case 1:
+                    MaterialBibliografico* material = buscarMaterial(biblioteca,medida);
+                    if (archivo.is_open()) {
+                        archivo<<material->getNombre()<<","<<material->getISBN()<<","<<material->getAutor()<<","<<material->getFechaPublicacion() << "," << resumen << endl;
+                        archivo.close();
+                        cout << "Libro guardado exitosamente en el archivo." << endl;
+                    } else {
+                        cout << "No se pudo abrir el archivo." << endl;
+                    }
+                    break;
+                
+                default:
+                    break;
+                }
+            }
+
+
+
+        }while(opcion!= 3);
+}
+
+void guardarOCargarArchivos(MaterialBibliografico* biblioteca[],int medida,Usuario* usuarios[]){
+    int opcionGuardarCargar;
+    string input;
+    string nombreBiblioteca;
+    string nombreUsuarios;
+    do{
+        cout<<"========"<<endl;
+        cout<<"1.Guardar libro o revista"<<endl;
+        cout<<"2.Guardar usuario"<<endl;
+        cout<<"3.Cargar Biblioteca"<<endl;
+        cout<<"4.Cargar Usuarios"<<endl;
+        cout<<"5.Salir"<<endl;
+        try{
+            opcionGuardarCargar = stoi(input);
+        
+        }catch (invalid_argument&){
+            cout<<"\nOpcion invalida. Intente nuevamente"<<endl;
+            continue;
+        }
+        if(opcionGuardarCargar>=1 || opcionGuardarCargar <=4){
+            
+            switch (opcionGuardarCargar)
+            {
+                case 1:
+                
+                
+                
+                break;
+            
+                case 2:
+
+                break;
+            }
+        }
+
+
+
+    }while(opcionGuardarCargar != 3);
+
+
+
+
+
+
+}
 
 int main(){
     int medida = 100;
@@ -511,7 +589,7 @@ int main(){
             cout<<"\nOpcion invalida. Intente nuevamente"<<endl;
             continue;
         }
-        if(opcion >= 1 || opcion <=5){
+        if(opcion >= 1 || opcion <=6){
             switch(opcion){
                 case 1:
                 agregarMateriales(biblioteca,medida);
@@ -522,7 +600,8 @@ int main(){
                 break;
 
                 case 3:
-                buscarMaterial(biblioteca,medida);
+                MaterialBibliografico* material = buscarMaterial(biblioteca,medida);
+                material->mostrarInformacion();
                 break;
 
                 case 4:
@@ -530,6 +609,10 @@ int main(){
                 break;
 
                 case 5:
+                guardarOCargarArchivos(biblioteca,medida,usuarios);
+                break;
+
+                case 6:
                 gestionUsuarios(usuarios,cantUsuarios);
                 break;
                 
@@ -538,6 +621,6 @@ int main(){
             cout<<"\n====Sistema cerrrado===="<<endl;
         }
         
-    }while(opcion != 6);
+    }while(opcion != 7);
     return 0;
 }
