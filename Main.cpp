@@ -49,6 +49,13 @@ void crearLibro(string nombre, string isbn, string autor, MaterialBibliografico*
     getline(cin, resumen); 
 
     Libro* libro = new Libro(nombre, isbn, autor, "libro", fechaPublicacion, resumen);
+    ofstream archivo("Materiales.txt",ios::app);
+    if(archivo.is_open()){
+        archivo<<endl;
+        archivo<<nombre<<","<<isbn<<","<<autor<<","<<"libro"<<","<<fechaPublicacion<<","<<resumen<<","<<"no prestado"<<","<<"000";
+    }else{
+        cout << "Error al abrir el archivo para guardar." << endl;
+    }
     agregarALista(biblioteca, medida, libro);
     cout<<"Libro creado con exito"<<endl;
     
@@ -64,6 +71,14 @@ void crearRevista(string nombre, string isbn, string autor, MaterialBibliografic
     cin>>mesPublicacion;
 
     Revista* revista = new Revista(nombre, isbn, autor, "revista", numeroEdicion, mesPublicacion);
+    ofstream archivo("Materiales.txt",ios::app);
+    if(archivo.is_open()){
+        archivo<<endl;
+        archivo<<nombre<<","<<isbn<<","<<autor<<","<<"revista"<<","<<numeroEdicion<<","<<mesPublicacion<<","<<"no prestado"<<","<<"000";
+    }else{
+        cout << "Error al abrir el archivo para guardar." << endl;
+    }
+
     agregarALista(biblioteca, medida, revista);
     cin.ignore();
     cout<<"Revista creada con exito"<<endl;
@@ -285,6 +300,8 @@ void prestarYDevolverMaterial(MaterialBibliografico* biblioteca[], int medida,Us
                     break;
 
                 }    
+            }else{
+                cout<<"El usuario no existe"<<endl;
             }
             continue;
         }
@@ -563,6 +580,15 @@ void cargarMaterialesDesdeArchivo(MaterialBibliografico* biblioteca[],int medida
         }
     }
 }
+
+void guardarArchivo(){
+
+}
+
+
+
+
+
 
 int main(){
     int medida = 100;
