@@ -36,7 +36,6 @@ bool Usuario::prestarMaterial(MaterialBibliografico* material){
 bool Usuario::devolverMaterial(MaterialBibliografico* material){
     for (int i = 0; i < 5; i++){
         if(material->getNombre() == materialesPrestados[i]->getNombre() || material->getAutor() == materialesPrestados[i]->getAutor()){
-            delete materialesPrestados[i];
             materialesPrestados[i] = nullptr;
             return true;    
         }
