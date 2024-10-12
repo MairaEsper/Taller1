@@ -4,6 +4,8 @@
         "string": "cpp",
         "format": "cpp",
         "stdexcept": "cpp",
-        "random": "cpp"
+        "random": "cpp",
+        "deque": "cpp",
+        "vector": "cpp"
     }
 }

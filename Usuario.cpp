@@ -24,7 +24,8 @@ void Usuario::setId(int id){
     this -> id = id;
 }
 
-bool Usuario::prestarMaterial(MaterialBibliografico* material){for (int i = 0; i < 5; i++){
+bool Usuario::prestarMaterial(MaterialBibliografico* material){
+    for (int i = 0; i < 5; i++){
             if(materialesPrestados[i] == nullptr){
                 materialesPrestados[i] = material;
                 return true;

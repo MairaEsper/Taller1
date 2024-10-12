@@ -4,6 +4,7 @@
 #include "Revista.h"
 #include "Usuario.h"
 #include <fstream>
+#include <sstream>
 using namespace std;
 
 void mostrarMenu(){
@@ -12,9 +13,8 @@ void mostrarMenu(){
     cout<<"2. Mostrar informacion de los materiales"<<endl;
     cout<<"3. Buscar material"<<endl;
     cout<<"4. Prestar y devolver material"<<endl;
-    cout<<"5. Prestar y devolver material"<<endl;
-    cout<<"6. Gestion de usuarios"<<endl;
-    cout<<"7. Salir"<<endl;
+    cout<<"5. Gestion de usuarios"<<endl;
+    cout<<"6. Salir"<<endl;
     cout<<"Elija una opcion: ";
 }
 
@@ -159,17 +159,17 @@ MaterialBibliografico* buscarMaterial(MaterialBibliografico* biblioteca[], int m
         cout<<"\nLa Biblioteca esta vacia."<<endl;
     }
     cin.ignore();
-    
+    return nullptr;
 }
+
+
 Usuario* buscarUsuario(Usuario* usuarios[],int cantUsuarios,string nombreUsuario,int idUsuario){
     for(int i = 0; i < cantUsuarios; i++){
-
         if(usuarios[i]!= nullptr){
             if(usuarios[i]->getNombre() == nombreUsuario || usuarios[i]->getId() == idUsuario){
                 return usuarios[i];
             }
         }
-        
     }
     return nullptr;
 }
@@ -260,7 +260,7 @@ void prestarYDevolverMaterial(MaterialBibliografico* biblioteca[], int medida,Us
         if (opcionPyD == 1 || opcionPyD == 2){
             string tituloAutor;
             cout<<"Ingrese titulo o nombre: ";
-            cin>>tituloAutor;
+            getline(cin,tituloAutor);
             string nombreUsuarioPresDevol;
             int idUsuarioPresDevol = -1;
             if(opcionPyD == 1){
@@ -372,6 +372,7 @@ void crearUsuario(Usuario* usuarios[],int cantUsuarios){
         Usuario* usuario = new Usuario(nombreUsuario, idUsuario);
         cout<<"El usuario fue creado con exito"<<endl;
         agregarUsuario(usuarios,cantUsuarios,usuario);
+
         cin.ignore();
         return;
     }
@@ -487,85 +488,80 @@ void gestionUsuarios(Usuario* usuarios[],int cantUsuarios){
         
 
     }while(opcionUsuario != 4);
-} //Implementar la funcionalidad para crear, buscar y eliminar usuarios. Asociar materiales prestados a usuarios específicos. 
+} 
 
-
-void guardarLibroRevista(MaterialBibliografico* biblioteca[],int medida){
-        int opcion;
-        ofstream archivo("materiales.txt", ios::app);
-        do{
-            cout<<"========="<<endl;
-            cout<<"1.Libro"<<endl;
-            cout<<"2.Revista"<<endl;
-            cout<<"3.Salir"<<endl;
-            if(opcion>=1 || opcion <=2){
-                switch (opcion)
-                {
-                case 1:
-                    MaterialBibliografico* material = buscarMaterial(biblioteca,medida);
-                    if (archivo.is_open()) {
-                        archivo<<material->getNombre()<<","<<material->getISBN()<<","<<material->getAutor()<<","<<material->getFechaPublicacion() << "," << resumen << endl;
-                        archivo.close();
-                        cout << "Libro guardado exitosamente en el archivo." << endl;
-                    } else {
-                        cout << "No se pudo abrir el archivo." << endl;
-                    }
-                    break;
-                
-                default:
-                    break;
-                }
+void cargarUsuarios(Usuario* usuarios[], int cantUsuarios){
+    ifstream archivo("Usuarios.txt");
+    string linea;
+    string parte;
+    
+    while(getline(archivo, linea)){
+        
+        int iterador = 0;
+        stringstream input_stringstream(linea);
+        string nombre, id;
+        while(getline(input_stringstream, parte, ',')){
+            iterador++;
+            if (iterador == 1){
+                nombre = parte;
+            }else if(iterador == 2){
+                id = parte;
             }
-
-
-
-        }while(opcion!= 3);
+        }
+        Usuario* usuario = new Usuario(nombre,stoi(id));
+        agregarUsuario(usuarios,cantUsuarios,usuario);
+    }
 }
 
-void guardarOCargarArchivos(MaterialBibliografico* biblioteca[],int medida,Usuario* usuarios[]){
-    int opcionGuardarCargar;
-    string input;
-    string nombreBiblioteca;
-    string nombreUsuarios;
-    do{
-        cout<<"========"<<endl;
-        cout<<"1.Guardar libro o revista"<<endl;
-        cout<<"2.Guardar usuario"<<endl;
-        cout<<"3.Cargar Biblioteca"<<endl;
-        cout<<"4.Cargar Usuarios"<<endl;
-        cout<<"5.Salir"<<endl;
-        try{
-            opcionGuardarCargar = stoi(input);
+void cargarMaterialesDesdeArchivo(MaterialBibliografico* biblioteca[],int medida,Usuario* usuarios[], int cantUsuarios){
+    ifstream archivo("Materiales.txt");
+    string linea;
+    string parte;
+    
+    while(getline(archivo, linea)){
         
-        }catch (invalid_argument&){
-            cout<<"\nOpcion invalida. Intente nuevamente"<<endl;
-            continue;
-        }
-        if(opcionGuardarCargar>=1 || opcionGuardarCargar <=4){
-            
-            switch (opcionGuardarCargar)
-            {
-                case 1:
-                
-                
-                
-                break;
-            
-                case 2:
-
-                break;
+        int iterador = 0;
+        stringstream input_stringstream(linea);
+        string nombre, ISBN, autor, tipo, par1, par2, estado, id;
+        while(getline(input_stringstream, parte, ',')){
+            iterador++;
+            if (iterador == 1){
+                nombre = parte;
+            } else if (iterador == 2){
+                ISBN = parte;
+            } else if (iterador == 3){
+                autor = parte;
+            }else if(iterador == 4){
+                tipo = parte;
+            }else if(iterador == 5){
+                par1 = parte;
+            }else if(iterador == 6){
+                par2 = parte;
+            }else if(iterador == 7){
+                estado = parte;
+            }else if(iterador == 8){
+                id = parte;
             }
         }
-
-
-
-    }while(opcionGuardarCargar != 3);
-
-
-
-
-
-
+        string nombreUsuario = "__";
+        Usuario* usuario = buscarUsuario(usuarios,cantUsuarios,nombreUsuario,stoi(id));
+        if (tipo == "libro") {
+            Libro* libro = new Libro(nombre, ISBN, autor, tipo, par1, par2);
+            agregarALista(biblioteca,medida,libro);
+            if(estado == "prestado" && usuario != nullptr){
+                usuario->prestarMaterial(libro);
+                libro -> setPrestado(true);
+            }
+            
+        } else if (tipo == "revista") {
+           Revista* revista = new Revista(nombre, ISBN, autor, tipo, stoi(par1),par2);
+           agregarALista(biblioteca,medida,revista);
+           if(estado == "prestado" && usuario != nullptr){
+                usuario->prestarMaterial(revista);
+                revista->setPrestado(true);
+            } 
+        }
+    }
 }
 
 int main(){
@@ -575,8 +571,8 @@ int main(){
     Usuario* usuarios[cantUsuarios] = {nullptr};
     string input;
     int opcion;
-    bool blanquito = false;
-
+    cargarUsuarios(usuarios,cantUsuarios);
+    cargarMaterialesDesdeArchivo(biblioteca,medida,usuarios,cantUsuarios);
     do{
         mostrarMenu();
 
@@ -591,36 +587,32 @@ int main(){
         }
         if(opcion >= 1 || opcion <=6){
             switch(opcion){
-                case 1:
+                case 1:{
                 agregarMateriales(biblioteca,medida);
-                break;
+                break;}
 
-                case 2:
+                case 2:{
                 mostrarInfo(biblioteca,medida);
-                break;
+                break;}
 
-                case 3:
+                case 3:{
                 MaterialBibliografico* material = buscarMaterial(biblioteca,medida);
                 material->mostrarInformacion();
-                break;
+                break;}
 
-                case 4:
+                case 4:{
                 prestarYDevolverMaterial(biblioteca,medida,usuarios);
-                break;
+                break;}
 
-                case 5:
-                guardarOCargarArchivos(biblioteca,medida,usuarios);
-                break;
-
-                case 6:
+                case 5:{
                 gestionUsuarios(usuarios,cantUsuarios);
-                break;
+                break;}
                 
             }
         }else{
             cout<<"\n====Sistema cerrrado===="<<endl;
         }
         
-    }while(opcion != 7);
+    }while(opcion != 6);
     return 0;
 }

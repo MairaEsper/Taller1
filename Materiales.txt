@@ -1,0 +1,3 @@
+Caperucita,455-22-0,Pablo Neruda,libro,11-12-2003,Niña perdida es encontrada por un lobo y deciden viajar juntos para volver a casa,prestado,123
+Vogue Chile,356-86-9,Feliruis J´Onne,revista,34,Mayo,prestado,456
+Recetas de la Abuela,344-65-234,Rosa Castillo,revista,23,Febrero,no prestado,000

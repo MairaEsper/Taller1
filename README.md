@@ -4,3 +4,5 @@ Integrantes:
 - Maira Esperanza Cortés Araya, rut: 21.324.438-8, correo institucional: maira.cortes@alumnos.ucn.cl, paralelo: C1
 
 Información sobre los objetos que se crean en el main durante el inicio del programa:
+- MaterialBibliografico* biblioteca[medida] = {nullptr};
+- Usuario* usuarios[cantUsuarios] = {nullptr};
