@@ -1,5 +1,3 @@
-Caperucita,455-22-0,Pablo Neruda,libro,11-12-2003,Niña perdida es encontrada por un lobo y deciden viajar juntos para volver a casa,prestado,123
-Vogue Chile,356-86-9,Feliruis J´Onne,revista,34,Mayo,prestado,456
-Recetas de la Abuela,344-65-234,Rosa Castillo,revista,23,Febrero,no prestado,000
-Mecanica,435-54,Pablo Perez,libro,12-02-2005,Ejercicios de Mecanica,no prestado,000
-Matematica II,234-54-6,Martina Godoy,libro,25-07-2013,Ejercicios de Matematica II,no prestado,000
+Caperucita,455-22-0,Pablo Neruda,libro,11-12-2003,Nina perdida es encontrada por un lobo y deciden viajar juntos para volver a casa,prestado,278
+Vogue Chile,356-86-9,Feliruis JOnne,revista,34,Mayo,no prestado,0
+Recetas de la Abuela,344-65-234,Rosa Castillo,revista,23,Febrero,no prestado,0

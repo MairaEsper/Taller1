@@ -19,6 +19,7 @@ class Usuario{
 
     bool prestarMaterial(MaterialBibliografico* material);
     bool devolverMaterial(MaterialBibliografico* material);
+    MaterialBibliografico** getLista();
     void mostrarMaterialesPrestados();
     ~Usuario();
 };

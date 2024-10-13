@@ -30,25 +30,29 @@ bool Usuario::prestarMaterial(MaterialBibliografico* material){
                 materialesPrestados[i] = material;
                 return true;
             }
-        }
-        return false;
+    }
+    return false;
 }
 bool Usuario::devolverMaterial(MaterialBibliografico* material){
     for (int i = 0; i < 5; i++){
-        if(material->getNombre() == materialesPrestados[i]->getNombre() || material->getAutor() == materialesPrestados[i]->getAutor()){
+        if(materialesPrestados[i] != nullptr && material->getNombre() == materialesPrestados[i]->getNombre()){
             materialesPrestados[i] = nullptr;
             return true;    
         }
     }
-    return false;
-    
+    return false; 
 }
+
+MaterialBibliografico** Usuario::getLista(){
+    return materialesPrestados;
+}
+
 void Usuario::mostrarMaterialesPrestados(){
     cout<<"Sus materiales prestados son: "<<endl;
     bool hayMateriales = false;
     for (int i = 0; i < 5; i++){
         if(materialesPrestados[i] != nullptr){
-            cout<<materialesPrestados[i]->getTipo()<<endl;
+            cout<<"\n-"+materialesPrestados[i]->getTipo();
             materialesPrestados[i]->mostrarInformacion();
             hayMateriales = true;
         }
@@ -60,4 +64,4 @@ void Usuario::mostrarMaterialesPrestados(){
     
 }
 
-Usuario::~Usuario(){}
+Usuario::~Usuario(){cout<<"Se destruye Usuario"<<endl;}

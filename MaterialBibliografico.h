@@ -29,5 +29,5 @@ class MaterialBibliografico{
 
     virtual void mostrarInformacion();
 
-    ~MaterialBibliografico();
+    virtual ~MaterialBibliografico();
 };

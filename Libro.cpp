@@ -25,4 +25,4 @@ void Libro::mostrarInformacion(){
     cout<<"\nNombre: " + this -> nombre + "\nISBN: " + this -> isbn + "\nAutor:"+ this -> autor + "\nFecha de publicacion: " + fechaPublicacion + "\nResumen: " + resumen<<endl;
 }
 
-Libro::~Libro(){}
+Libro::~Libro(){cout<<"Se destruye Libro"<<endl;}
