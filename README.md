@@ -1,6 +1,6 @@
 # Taller1
 Para compilar se utiliza:
-- g++ -o main.exe MaterialBibliografico.cpp Libro.cpp Revista.cpp Usuario.cpp main.cpp
+- g++ -o main.exe CPPs/MaterialBibliografico.cpp CPPs/Libro.cpp CPPs/Revista.cpp CPPs/Usuario.cpp CPPs/main.cpp -I Headers
 - .\main
 
 Integrantes:
