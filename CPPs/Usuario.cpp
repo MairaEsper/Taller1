@@ -1,5 +1,5 @@
 #include <iostream>
-#include "Usuario.h"
+#include "../Headers/Usuario.h"
 using namespace std;
 
 Usuario::Usuario(string nombre, int id){

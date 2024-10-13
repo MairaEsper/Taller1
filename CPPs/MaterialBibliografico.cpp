@@ -1,5 +1,5 @@
 #include <iostream>
-#include "MaterialBibliografico.h"
+#include "../Headers/MaterialBibliografico.h"
 using namespace std;
 
 MaterialBibliografico::MaterialBibliografico(string nombre, string isbn, string autor, string tipo){

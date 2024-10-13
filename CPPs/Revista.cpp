@@ -1,5 +1,5 @@
 #include <iostream>
-#include "Revista.h"
+#include "../Headers/Revista.h"
 using namespace std;
 
 Revista::Revista(string nombre, string isbn, string autor,string tipo,int numeroEdicion, string mesPublicacion):MaterialBibliografico(nombre, isbn, autor, tipo){

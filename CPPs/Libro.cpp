@@ -1,5 +1,5 @@
 #include <iostream>
-#include "Libro.h"
+#include "../Headers/Libro.h"
 using namespace std;
 
 Libro::Libro(string nombre, string isbn, string autor, string tipo, string fechaPublicacion, string resumen):MaterialBibliografico(nombre, isbn, autor, tipo){

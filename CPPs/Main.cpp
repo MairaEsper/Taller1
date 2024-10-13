@@ -1,8 +1,8 @@
 #include <iostream>
-#include "MaterialBibliografico.h"
-#include "Libro.h"
-#include "Revista.h"
-#include "Usuario.h"
+#include "../Headers/MaterialBibliografico.h"
+#include "../Headers/Libro.h"
+#include "../Headers/Revista.h"
+#include "../Headers/Usuario.h"
 #include <fstream>
 #include <sstream>
 using namespace std;
@@ -21,7 +21,7 @@ void mostrarMenu(){
 }
 
 //---------------------------------------------------------------------------------------------------------------------------
-// bool validarFecha(string& fecha) verifica que el formato de la fecha escrita por pantalla esté 
+// bool validarFecha(string& fecha) verifica que el formato de la fecha escrita por pantalla esté en el formato que se pide: dd-mm-aaaa
 bool validarFecha(string fecha) {
     if (fecha.length() == 10 && fecha[2] == '-' && fecha[5] == '-') {
         return true;
