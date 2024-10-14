@@ -5,6 +5,12 @@
 #include "../Headers/Usuario.h"
 #include <fstream>
 #include <sstream>
+using namespace std;
+
+//---------------------------------------------------------------------------------------------------------------------------------
+//En caso de aparecer muchas lineas rojas de la nada es que el using namespace std; se "buguea" suponemos y al borrarlo y escribirlo
+//nuevamente, este se arregla, no sabemos el porque, asi que esto queda como prueba de ello.
+//---------------------------------------------------------------------------------------------------------------------------------
 
 //---------------------------------------------------------------------------------------------------------------------------
 // void mostrarMenu() muestra por pantalla el menú con las opciones que el usuario puede elegir.
