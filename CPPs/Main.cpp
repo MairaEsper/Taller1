@@ -5,7 +5,6 @@
 #include "../Headers/Usuario.h"
 #include <fstream>
 #include <sstream>
-using namespace std;
 
 //---------------------------------------------------------------------------------------------------------------------------
 // void mostrarMenu() muestra por pantalla el menú con las opciones que el usuario puede elegir.
@@ -262,25 +261,30 @@ void mostrarInfo(MaterialBibliografico* biblioteca[], int medida){
 }
 
 //---------------------------------------------------------------------------------------------------------------------------
-// MaterialBibliografico* buscarMaterial() 
+// MaterialBibliografico* buscarMaterial() crea un bool hayMateriales que llama a la función hayMaterial(), si hayMateriales es verdadero entra al if()
+// pide que se ingrese por pantalla el título o autor del material bibliográfico y luego entra a un for() que recorre toda la lista de la biblioteca, 
+// si la posición en la que se encuentra de la lista de biblioteca es distinto de nullptr, entonces buscará las siguientes opciones: 
+// 1. si el nombre del material es igual al titulo que se ingresó por pantalla, entonces se encontró el material que se buscaba y se retorna.
+// 2. si el autor del material es igual al autor que se ingresó por pantalla, entonces se encontró el material que se buscaba y se retorna.
+// En el caso en el que encontrado sea igual a falso, significa que no se encontró el material.
 MaterialBibliografico* buscarMaterial(MaterialBibliografico* biblioteca[], int medida){
-    string respuesta;
+    string titutloOAutor;
     bool hayMateriales = hayMaterial(biblioteca, medida);
     
     if(hayMateriales){
         bool encontrado = false;
         do{
             cout<<"Ingrese el titulo o autor: ";
-            cin>>respuesta;
+            cin>>titutloOAutor;
             
             for (int i = 0; i < medida; i++) {
                 if (biblioteca[i] != nullptr) {
-                    if (biblioteca[i]->getNombre() == respuesta) {
+                    if (biblioteca[i]->getNombre() == titutloOAutor) {
                         encontrado = true;
                         cin.ignore();
                         return biblioteca[i];
                     }
-                    if (biblioteca[i]->getAutor() == respuesta) {
+                    if (biblioteca[i]->getAutor() == titutloOAutor) {
                         encontrado = true;
                         cin.ignore();
                         return biblioteca[i];
@@ -288,7 +292,7 @@ MaterialBibliografico* buscarMaterial(MaterialBibliografico* biblioteca[], int m
                 }
             }
             if (!encontrado) {
-                cout<<"No se encontraron resultados para: "<<respuesta<<endl;
+                cout<<"No se encontraron resultados para: "<<titutloOAutor<<endl;
             }
             cin.ignore();
         }while(!encontrado);
@@ -300,6 +304,9 @@ MaterialBibliografico* buscarMaterial(MaterialBibliografico* biblioteca[], int m
 }
 
 //---------------------------------------------------------------------------------------------------------------------------
+//buscarUsuario es una funcion que lleva por parametros la lista de usuarios, cantidad de usuarios, el nombre buscado o el id buscado
+//con esta informacion busca dentro de la lista de usuarios si el nombre o id de alguno coincide con el nombre o id buscado. Si algun
+//usuario coincide, se retornara a dicho usuario y en el caso de no encontrarlo, se retorna false.
 Usuario* buscarUsuario(Usuario* usuarios[],int cantUsuarios,string nombreUsuario,int idUsuario){
     for(int i = 0; i < cantUsuarios; i++){
         if(usuarios[i]!= nullptr){
@@ -312,6 +319,14 @@ Usuario* buscarUsuario(Usuario* usuarios[],int cantUsuarios,string nombreUsuario
 }
 
 //---------------------------------------------------------------------------------------------------------------------------
+//prestar es una funcion llamada por prestarYDevolverMaterial, aqui lo que se usa por parametros son la biblioteca, su medida, un usuario
+//y un string denominado tituloAutor el cuando contendra el titulo o autor del libro o revista buscado en cuestion. Primero usara la funcion
+//hayMaterial para revisar si existe algun material bibliografico en la biblioteca y si es verdadero retornara btrue, siguiendo asi, a buscar
+//dentro de la biblioteca si alguno de sus materiales coincide con el titulo o autor, y si coincide alguno, tambien revisara si este se
+//encuentra prestado o no(true o false respectivamente).
+//1.Si es encontrado, y su estado es false revisara si el usuario a quien se le prestara dicho material posee o no espacio suficiente
+//en su lista de materiales prestados y si es un true llamara a modificarEstadoEID para modificar el estado de dicho material en Materiales.txt. 
+//2.En el caso de que se encuentre prestado solo escribira por pantalla. 
 void prestar(MaterialBibliografico* biblioteca[], int medida, string tituloAutor,Usuario* usuario){
     bool hayMateriales = hayMaterial(biblioteca, medida);
     if(hayMateriales){
@@ -347,6 +362,14 @@ void prestar(MaterialBibliografico* biblioteca[], int medida, string tituloAutor
 }
 
 //---------------------------------------------------------------------------------------------------------------------------
+//devolver es una funcion llamada por prestarYDevolverMaterial, aqui lo que se usa por parametros son la biblioteca, su medida, un usuario
+//y un string denominado tituloAutor el cuando contendra el titulo o autor del libro o revista buscado en cuestion. Primero usara la funcion
+//hayMaterial para revisar si existe algun material bibliografico en la biblioteca y si es verdadero retornara true, siguiendo asi, a buscar
+//dentro de la biblioteca si alguno de sus materiales coincide con el titulo o autor, y si coincide alguno, tambien revisara si este se
+//encuentra prestado o no(true o false respectivamente). 
+//1.Si es encontrado, y su estado es true, modificara el estado del material a false(para indicar que se encuentra prestado) y luego 
+//llamara a modificarEstadoEID para modificar el estado de dicho material en Materiales.txt.
+//2.En el caso de que no este prestado solo escribira por pantalla que no ha sido prestado dicho material.
 void devolver(MaterialBibliografico* biblioteca[], int medida,string tituloAutor, Usuario* usuario){
     bool hayMateriales = hayMaterial(biblioteca, medida);
     if(hayMateriales){
@@ -382,6 +405,9 @@ void devolver(MaterialBibliografico* biblioteca[], int medida,string tituloAutor
 }
 
 //---------------------------------------------------------------------------------------------------------------------------
+//prestarYDevolverMaterial da 2 opciones, prestar o devolver un material bibliografico, en cada pregunta pide el nombre o autor y
+//el usuario que esta devolviendo dicho material, primero busca si el usuario existe, y en caso de ser true, llamara a los metodos
+//prestar o devolver para buscarlo dentro de la biblioteca y hacer la accion correspondiente.
 void prestarYDevolverMaterial(MaterialBibliografico* biblioteca[], int medida,Usuario* usuarios[],int cantUsuarios){
     int opcionPyD;
     string input;
@@ -438,6 +464,8 @@ void prestarYDevolverMaterial(MaterialBibliografico* biblioteca[], int medida,Us
 }
 
 //---------------------------------------------------------------------------------------------------------------------------
+//menuBuscarUsuario pide como variables el nombre o id del usuario que se busca. Si se encuentra,se escribira por pantalla su nombre, id y
+//en caso de poseer materiales bibliograficos se escribira la informacion de estos.
 void menuBuscarUsuario(Usuario* usuarios[],int cantUsuarios){
     Usuario* usuario = nullptr;
     int opcionMusuario;
@@ -502,6 +530,9 @@ void menuBuscarUsuario(Usuario* usuarios[],int cantUsuarios){
 }
 
 //---------------------------------------------------------------------------------------------------------------------------
+//agregarUsuario lleva por parametros la lista de usuarios, cantidad de usuarios y el usuario entregado. Recorre buscando un espacio
+//vacio(nullptr) dentro de la lista, y si lo encuentra pondra en esa posicion al usuario entregado, si no existe espacio disponible
+//escribira por pantalla que se encuentra llena.
 void agregarUsuario(Usuario* usuarios[],int cantUsuarios,Usuario* usuario){
     for(int i = 0; i < cantUsuarios; i++){
         if(usuarios[i] == nullptr){
@@ -513,6 +544,8 @@ void agregarUsuario(Usuario* usuarios[],int cantUsuarios,Usuario* usuario){
 }
 
 //---------------------------------------------------------------------------------------------------------------------------
+//crearUsuario pide el nombre e id por pantalla, si son respuestas correctas usara esa informacion para crear usuarios y agregarlos
+//a la lista de usuarios y tambien abrir el archivo de Usuarios.txt para poder este usuario al archivo.
 void crearUsuario(Usuario* usuarios[],int cantUsuarios){
     string nombreUsuario;
     int idUsuario;
@@ -543,6 +576,10 @@ void crearUsuario(Usuario* usuarios[],int cantUsuarios){
 }
 
 //---------------------------------------------------------------------------------------------------------------------------
+//eliminarUsuario pide nombre o id del usuario buscado, si el nombre o id ingresados corresponden con algun usuario dentro de la
+//lista de usuarios, este sera eliminado y reemplazado por un nullptr. Tambien seran devueltos sus materiales en caso de poseer alguno
+//y ademas sera todo modificado en los archivos Materiales.txt y Usuarios.txt para que no haya error de informacion y datos guardados
+//al borrar dicho usuario del txt y los libros ser devueltos, cambiando su estado.
 void eliminarUsuario(MaterialBibliografico* biblioteca[],int medida,Usuario* usuarios[],int cantUsuarios){
     Usuario* usuario = nullptr;
     int opcionEliminar;
@@ -642,6 +679,9 @@ void eliminarUsuario(MaterialBibliografico* biblioteca[],int medida,Usuario* usu
 }
 
 //---------------------------------------------------------------------------------------------------------------------------
+//gestionUsuarios es una funcion que permite crear, buscar o eliminar usuarios, llamando sus metodos correspondientes y facilitando 
+//la biblioteca, su medida, la lista de usuarios y cantidad de usuarios disponibles para estos dichos metodos y permitir modificar
+//la informacion y datos guardados.
 void gestionUsuarios(MaterialBibliografico* biblioteca[],int medida,Usuario* usuarios[],int cantUsuarios){
     string nombreUsuario;
     int id;
@@ -684,6 +724,8 @@ void gestionUsuarios(MaterialBibliografico* biblioteca[],int medida,Usuario* usu
 } 
 
 //---------------------------------------------------------------------------------------------------------------------------
+//cargarUsuarios lleva por parametros la lista de usuarios y la cantidad de espacios disponibles, luego abrira Usuarios.txt 
+//para crear usuarios con la informacion dentro de ese archivo y agregarlos a la lista de usuarios.
 void cargarUsuarios(Usuario* usuarios[], int cantUsuarios){
     ifstream archivo("Usuarios.txt");
     string linea;
@@ -708,6 +750,9 @@ void cargarUsuarios(Usuario* usuarios[], int cantUsuarios){
 }
 
 //---------------------------------------------------------------------------------------------------------------------------
+//cargarMaterialesDesdeArchivo abre Materiales.txt y con la informacion dentro del archivo crea libros o revista segun los parametros
+//y los agrega a la biblioteca de materiales bibliograficos. Tambien les agrega el estado, si se encuentra prestado
+//usa el id proporcionado para identificar que usuario lo posee y guardar esa informacion en el material y usuario correspondiente.
 void cargarMaterialesDesdeArchivo(MaterialBibliografico* biblioteca[], int medida, Usuario* usuarios[], int cantUsuarios) {
     ifstream archivo("Materiales.txt");
     string linea, nombre, ISBN, autor, tipo, par1, par2, estado, id;
@@ -744,6 +789,7 @@ void cargarMaterialesDesdeArchivo(MaterialBibliografico* biblioteca[], int medid
 }
 
 //---------------------------------------------------------------------------------------------------------------------------
+//liberarMmemoria borra la memoria utilizada, es decir, los objetos creados, luego de cerrar el sistema.
 void liberarMemoria(MaterialBibliografico* biblioteca[], int medida, Usuario* usuarios[], int cantUsuarios){
     for(int i = 0; i < medida; i++){
         if(biblioteca[i]!= nullptr){
@@ -758,6 +804,12 @@ void liberarMemoria(MaterialBibliografico* biblioteca[], int medida, Usuario* us
 }
 
 //---------------------------------------------------------------------------------------------------------------------------
+//main, aqui son creadas 2 listas, la biblioteca que contendra los materiales bibliograficos y la lista de usuarios, ambas con tamaños
+//definidos. Cargara 2 archivos predefinidos con algunos materiales y usuarios para ingresarlos a sus listas correspondientes y luego
+//llamara a la funcion mostrarMenu para elegir alguna opcion presente y dirigirse a la elegida por pantalla. Cada una llamara a un metodo
+//diferente y correspondiente a su funcion. En caso de que la opcion sea cerrar el programa(Salir), este llamara a la funcion
+//liberarMemoria para eliminar todo objeto creado y liberar memoria, para despues escribir por pantalla y finalizar. Todo lo creado,
+//eliminado o modificado quedara guardados en los archivos de texto Materiales.txt y Usuarios.txt
 int main(){
     int medida = 100;
     int cantUsuarios = 50;
@@ -805,6 +857,7 @@ int main(){
         }
         
     }while(opcion != 6);
+    liberarMemoria(biblioteca,medida,usuarios,cantUsuarios);
     cout<<"\n====Sistema cerrrado===="<<endl;
     return 0;
 }
