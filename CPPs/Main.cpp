@@ -7,10 +7,15 @@
 #include <sstream>
 using namespace std;
 
+//Observaciones:
 //---------------------------------------------------------------------------------------------------------------------------------
 //En caso de aparecer muchas lineas rojas de la nada es que el using namespace std; se "buguea" suponemos y al borrarlo y escribirlo
 //nuevamente, este se arregla, no sabemos el porque, asi que esto queda como prueba de ello.
 //---------------------------------------------------------------------------------------------------------------------------------
+//El programa al estar corriendo, en algun menu, y si el usuario, osea profesor o ayudante o nosotros se mueve por el codigo
+//este empieza a duplicar las opciones de los menus, me parece que es tema de C++, asi que procurar no moverse por el codigo mientras
+//eso pase y/o detener el codigo.
+//----------------------------------------------------------------------------------------------------------------------------------
 
 //---------------------------------------------------------------------------------------------------------------------------
 // void mostrarMenu() muestra por pantalla el menú con las opciones que el usuario puede elegir.
@@ -795,7 +800,7 @@ void cargarMaterialesDesdeArchivo(MaterialBibliografico* biblioteca[], int medid
 }
 
 //---------------------------------------------------------------------------------------------------------------------------
-//liberarMmemoria borra la memoria utilizada, es decir, los objetos creados, luego de cerrar el sistema.
+//liberarMmemoria borra la memoria utilizada, es decir, los objetos creados, luego de ser llamada.
 void liberarMemoria(MaterialBibliografico* biblioteca[], int medida, Usuario* usuarios[], int cantUsuarios){
     for(int i = 0; i < medida; i++){
         if(biblioteca[i]!= nullptr){
@@ -814,8 +819,8 @@ void liberarMemoria(MaterialBibliografico* biblioteca[], int medida, Usuario* us
 //definidos. Cargara 2 archivos predefinidos con algunos materiales y usuarios para ingresarlos a sus listas correspondientes y luego
 //llamara a la funcion mostrarMenu para elegir alguna opcion presente y dirigirse a la elegida por pantalla. Cada una llamara a un metodo
 //diferente y correspondiente a su funcion. En caso de que la opcion sea cerrar el programa(Salir), este llamara a la funcion
-//liberarMemoria para eliminar todo objeto creado y liberar memoria, para despues escribir por pantalla y finalizar. Todo lo creado,
-//eliminado o modificado quedara guardados en los archivos de texto Materiales.txt y Usuarios.txt
+//liberarMemoria para eliminar todo objeto creado y liberar memoria, para despues volver de ese metodo, escribir por pantalla y finalizar. 
+//Todo lo creado, eliminado o modificado quedara guardados en los archivos de texto Materiales.txt y Usuarios.txt
 int main(){
     int medida = 100;
     int cantUsuarios = 50;
