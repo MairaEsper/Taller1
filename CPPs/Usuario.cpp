@@ -64,4 +64,4 @@ void Usuario::mostrarMaterialesPrestados(){
     
 }
 
-Usuario::~Usuario(){cout<<"Se destruye Usuario"<<endl;}
+Usuario::~Usuario(){}

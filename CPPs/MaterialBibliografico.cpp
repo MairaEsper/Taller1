@@ -48,4 +48,4 @@ void MaterialBibliografico::setPrestado(bool prestado){
 void MaterialBibliografico::mostrarInformacion(){
     cout<<"Nombre: " + this -> nombre + "\nISBN: " + this -> isbn + "\nAutor:"+ this -> autor<<endl;}
 
-MaterialBibliografico::~MaterialBibliografico(){cout<<"Se destruye Material"<<endl;}
+MaterialBibliografico::~MaterialBibliografico(){}

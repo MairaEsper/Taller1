@@ -25,4 +25,4 @@ void Revista::mostrarInformacion(){
     cout<<"\nNombre: " + this -> nombre + "\nISBN: " + this -> isbn + "\nAutor: " + this -> autor + "\nNumero edicion: "<< this -> numeroEdicion << "\nMes publicacion: " + mesPublicacion<<endl;
 }
 
-Revista::~Revista(){cout<<"Se destruye Revista"<<endl;}
+Revista::~Revista(){}

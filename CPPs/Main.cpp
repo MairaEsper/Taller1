@@ -21,7 +21,7 @@ void mostrarMenu(){
 }
 
 //---------------------------------------------------------------------------------------------------------------------------
-// bool validarFecha(string& fecha) verifica que el formato de la fecha escrita por pantalla esté en el formato que se pide: dd-mm-aaaa
+// bool validarFecha(string fecha) verifica que el formato de la fecha escrita por pantalla esté en el formato que se pide: dd-mm-aaaa
 bool validarFecha(string fecha) {
     if (fecha.length() == 10 && fecha[2] == '-' && fecha[5] == '-') {
         return true;
@@ -31,6 +31,9 @@ bool validarFecha(string fecha) {
 }
 
 //---------------------------------------------------------------------------------------------------------------------------
+// void agregarALista() recorre con un for() la lista de la biblioteca que contiene los materiales bibliograficos, si la posición en la 
+// que se encuentra en el momento es nullptr, se agrega el material bibliográfico mb a la lista de la biblioteca, si logra recorrer todo el for()
+// y la posición en la que se encuentra es distinto de nullptr, significa que la lista de la biblioteca está completa (100 materiales disponibles).
 void agregarALista(MaterialBibliografico* biblioteca[], int medida, MaterialBibliografico* mb){
     for(int i = 0; i < medida; i++){
         if(biblioteca[i] == nullptr){
@@ -42,6 +45,9 @@ void agregarALista(MaterialBibliografico* biblioteca[], int medida, MaterialBibl
 }
 
 //---------------------------------------------------------------------------------------------------------------------------
+// void crearLibro() pide los parámetros nombre, isbn y autor, junto con la fecha de publicacion y el resumen por pantalla, para poder crear un 
+// libro con esos atributos y luego ese libro creado lo agrega al texto de Materiales.txt que contiene todos los materiales bibliográficos de
+// la biblioteca.
 void crearLibro(string nombre, string isbn, string autor, MaterialBibliografico* biblioteca[], int medida){
     string fechaPublicacion;
     do{
@@ -70,6 +76,9 @@ void crearLibro(string nombre, string isbn, string autor, MaterialBibliografico*
 }
 
 //---------------------------------------------------------------------------------------------------------------------------
+// void crearRevista() pide los parámetros nombre, isbn y autor, junto con el número de edición y el mes de publicación por pantalla, para poder
+// crear una revista con esos atributos y luego esa revista creada la agrega al texto de Materiales.txt que contiene todos los materiales bibliográficos de
+// la biblioteca.
 void crearRevista(string nombre, string isbn, string autor, MaterialBibliografico* biblioteca[], int medida){
     cout<<"Ingrese el numero de edicion: "; 
     int numeroEdicion;
@@ -94,6 +103,10 @@ void crearRevista(string nombre, string isbn, string autor, MaterialBibliografic
 }
 
 //---------------------------------------------------------------------------------------------------------------------------
+// void agregarMateriales() pide al usuario igresar por pantalla el material bibliográfico que desea agregar (debe elegir 1 o 2), para luego
+// pedirle los datos que comparten en común de la clase padre (nombre, isbn, autor), después se entra a un switch en donde dependiendo de la opción
+// que se eligió, se llamará a la función crearLibro() o crearRevista() para crear los respectivos materiales, en caso de que se elija una opción
+// diferente a 1 o 2, se mostrará por pantalla "Opcion invalida. Intente nuevamente".
 void agregarMateriales(MaterialBibliografico* biblioteca[], int medida){
     int material;
     string nombre;
@@ -130,6 +143,12 @@ void agregarMateriales(MaterialBibliografico* biblioteca[], int medida){
 }
 
 //---------------------------------------------------------------------------------------------------------------------------
+// void modificarEstadoEID() abre el archivo de texto "Materiales.txt" y crea un archivo temporal "Materiales_temp", luego va leyendo línea por línea
+// el archivo "Materiales.txt" y obtiene los atributos nombre, isbn, autor, tipo, fecha, resumen, estado, id. Si el nombre es igual al nombreMaterial
+// pedido en los parámetros de la función, entonces cambia el estado e id por el nuevoEstado y nuevoId pedidos en los parámetros de la función.
+// Escribe cada línea en el archivo temporal y si el material que se buscaba fue modificado, se escriben las líneas con los nuevos datos, si no se 
+// encuentra, se escriben las líneas originales. Finalmente, cierra ambos archivos de texto, elimina "Materiales.txt" y renombra "Materiales_temp.txt"
+// a "Materiales.txt", haciendo así que se cambie el archivo temporal (con los nuevos datos) por el original. Si no se abren los archivos muestra un mensaje de error.
 void modificarEstadoEID(string nombreMaterial,string nuevoEstado,int nuevoID) {
     ifstream archivoLectura("Materiales.txt");
     ofstream archivoTemporal("Materiales_temp.txt");
@@ -175,6 +194,11 @@ void modificarEstadoEID(string nombreMaterial,string nuevoEstado,int nuevoID) {
 }
 
 //---------------------------------------------------------------------------------------------------------------------------
+// void eliminarUsuarioDelArchivo() al igual que la función modificarEstadoEID(), abre un archivo de texto "Usuarios.txt" y crea un archivo temporal 
+// "Usuarios_temp.txt", lee el archivo "Usuarios.txt", obtiene los atributos nombre e id, si el id es distinto al id a eliminar que se pide en
+// los parámetros de la función, y si el contador es mayor a 1, entonces agrega un salto de linea, se incrementa el contador y luego se escribe la
+// linea en el archivo temporal. Finalmente, cierra ambos archivos de texto, elimina "Usuarios.txt" y renombra "Usuarios_temp.txt"
+// a "Usuarios.txt", haciendo así que se cambie el archivo temporal por el original.
 void eliminarUsuarioDelArchivo(int IDaEliminar) {
     ifstream archivoEntrada("Usuarios.txt");
     ofstream archivoTemporal("Usuarios_temp.txt");
@@ -207,6 +231,8 @@ void eliminarUsuarioDelArchivo(int IDaEliminar) {
 }
 
 //---------------------------------------------------------------------------------------------------------------------------
+// bool hayMaterial() recorre con un for() la lista de la biblioteca con los materiales bibliograficos, si la posición en la que se encuentra es
+// distinto de nullptr, significa que hay un material en esa posición, de lo contrario, no lo hay.
 bool hayMaterial(MaterialBibliografico* biblioteca[],int medida){
     for(int i = 0;i < medida;i++){
         if(biblioteca[i] != nullptr){
@@ -217,6 +243,9 @@ bool hayMaterial(MaterialBibliografico* biblioteca[],int medida){
 }
 
 //---------------------------------------------------------------------------------------------------------------------------
+// void mostrarInfo() llama a la funcion hayMaterial() para saber si existe un material o no, si la posición de la lista de la biblioteca donde 
+// se encuentran los materiales bibliográficos es distinto de nullptr, entonces imprime por pantalla los datos del material bibliográfico en esa posición.
+// En el caso en el que todas las posiciones de la lista sean igual a nullptr, significa que la lista está vacía y la biblioteca no tiene materiales bibliográficos.
 void mostrarInfo(MaterialBibliografico* biblioteca[], int medida){
     bool hayMateriales = hayMaterial(biblioteca, medida);
     cout<<"\n_____Material Bibliografico_____";
@@ -233,6 +262,7 @@ void mostrarInfo(MaterialBibliografico* biblioteca[], int medida){
 }
 
 //---------------------------------------------------------------------------------------------------------------------------
+// MaterialBibliografico* buscarMaterial() 
 MaterialBibliografico* buscarMaterial(MaterialBibliografico* biblioteca[], int medida){
     string respuesta;
     bool hayMateriales = hayMaterial(biblioteca, medida);
